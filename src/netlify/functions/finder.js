@@ -48,6 +48,7 @@ exports.handler = async (event, context) => {
     // 4. 유사도가 높은 상위 5개 선별
     // 5. 그 중에 랜덤 반환(페이지 로드)
 
+    console.log(JSON.parse(event.body));
     const contentEmbedding = JSON.parse(event.body.keywords);
     console.log(contentEmbedding);
 
