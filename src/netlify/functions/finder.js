@@ -67,6 +67,7 @@ exports.handler = async (event, context) => {
     let adIndex = 0;
     ads.forEach((ad, idx) => {
         const similarity = cosineSimilarity(contentEmbedding, ad.embedding);
+        console.log("similarity:", similarity);
         if (similarity >= highestAd) {
             highestAd = similarity;
             adIndex = idx;
