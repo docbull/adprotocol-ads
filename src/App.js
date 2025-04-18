@@ -1,4 +1,5 @@
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import Main from "./ads/Main";
 import Ad1 from "./ads/Ad1";
 import Ad2 from "./ads/Ad2";
 import Ad3 from "./ads/Ad3";
@@ -15,7 +16,7 @@ function App() {
         <Route
           path="/"
           exact={true}
-          element={<></>}
+          element={<Main />}
         />
         <Route
           path="/ad1"

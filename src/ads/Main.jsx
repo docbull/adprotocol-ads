@@ -10,7 +10,7 @@ const Main = ({ post }) => {
 
     return (
         <>
-            asdfasdf
+            AD Protocol ...
         </>
     );
 };
