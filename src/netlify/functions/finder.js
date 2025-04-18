@@ -42,17 +42,9 @@ function cosineSimilarity(embedding1, embedding2) {
 }
 
 exports.handler = async (event, context) => {
-    // 1. embedding 파싱
-    // 2. DB에서 광고 embedding 가져오기
-    // 3. 각 embedding과 유사도 검사
-    // 4. 유사도가 높은 상위 5개 선별
-    // 5. 그 중에 랜덤 반환(페이지 로드)
-
     console.log(JSON.parse(event.body));
-    const contentEmbedding = JSON.parse(event.body.keywords);
-    console.log(contentEmbedding);
+    const contentEmbedding = JSON.parse(event.body).keywords;
 
-    // 
     const ads = [
         { embedding: embedding1, url: "https://cool-pony-c67e5b.netlify.app/#/ad1" },
         { embedding: embedding2, url: "https://cool-pony-c67e5b.netlify.app/#/ad2" },
