@@ -15,7 +15,10 @@ const Coupang = ({ category }) => {
             body: JSON.stringify({ category: category }),
         })
         .then(res => res.json())
-        .then(data => setItems(data))
+        .then(data => {
+            console.log(data);
+            setItems(data);
+        })
         .catch(console.error);
     }, [category]);
 
