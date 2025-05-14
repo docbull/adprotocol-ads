@@ -2,14 +2,22 @@ import React from "react";
 import styled from "styled-components";
 import { useEffect, useState, useRef } from "react";
 
-const Coupang = () => {
-    const query = new URLSearchParams(window.location.search);
-    const items = JSON.parse(decodeURIComponent(query.get("items") || "[]"));
+const Coupang = ({ category }) => {
+    // const query = new URLSearchParams(window.location.search);
+    // const items = JSON.parse(decodeURIComponent(query.get("items") || "[]"));
+    const { category } = useParams();
+    const [ items, setItems ] = useState([]);
 
-    // 베스트 상품을 받아서 화면에 띄움 
+    // 베스트 상품을 받아서 화면에 띄움
     useEffect(() => {
-        console.log(items);
-    }, []);
+        fetch(`/.netlify/functions/coupang`, {
+            method: "POST",
+            body: JSON.stringify({ category: category }),
+        })
+        .then(res => res.json())
+        .then(data => setItems(data))
+        .catch(console.error);
+    }, [category]);
 
     return (
         <AdWrapper>

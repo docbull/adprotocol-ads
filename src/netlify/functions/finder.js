@@ -118,7 +118,6 @@ const generateHmac = async (method, url, secretKey, accessKey) => {
     return `CEA algorithm=HmacSHA256, access-key=${accessKey}, signed-date=${datetime}, signature=${signatureHex}`;
 }
 
-// 콘텐츠와 가장 연관성이 높은 카테고리 상품 추천
 exports.handler = async (event, context) => {
     // console.log(JSON.parse(event.body));
     const contentEmbedding = JSON.parse(event.body).keywords;
@@ -156,22 +155,22 @@ exports.handler = async (event, context) => {
         }
     });
 
-    const itemsByCategory = await getCoupangBestItemsByCategory(ads[adIndex].number);
-    console.log('LOADED ITEMS:', itemsByCategory);
+    // const itemsByCategory = await getCoupangBestItemsByCategory(ads[adIndex].number);
+    // console.log('LOADED ITEMS:', itemsByCategory);
 
-    const itemArray = [];
-    for (const item of itemsByCategory.data) {
-        const productUrl = await makeUrlForUs(item.productUrl);
+    // const itemArray = [];
+    // for (const item of itemsByCategory.data) {
+    //     const productUrl = await makeUrlForUs(item.productUrl);
 
-        itemArray.push({
-            productId: item.productId,
-            productName: item.productName,
-            productPrice: item.productPrice,
-            productImage: item.productImage,
-            productUrl: productUrl,
-        });
-    }
-    console.log("ITEM ARRAY:", itemArray);
+    //     itemArray.push({
+    //         productId: item.productId,
+    //         productName: item.productName,
+    //         productPrice: item.productPrice,
+    //         productImage: item.productImage,
+    //         productUrl: productUrl,
+    //     });
+    // }
+    // console.log("ITEM ARRAY:", itemArray);
 
     return {
         statusCode: 200,
