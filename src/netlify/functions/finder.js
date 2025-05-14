@@ -120,7 +120,7 @@ const generateHmac = async (method, url, secretKey, accessKey) => {
 
 // 콘텐츠와 가장 연관성이 높은 카테고리 상품 추천
 exports.handler = async (event, context) => {
-    console.log(JSON.parse(event.body));
+    // console.log(JSON.parse(event.body));
     const contentEmbedding = JSON.parse(event.body).keywords;
 
     const ads = [
@@ -160,7 +160,7 @@ exports.handler = async (event, context) => {
     console.log('LOADED ITEMS:', itemsByCategory);
 
     const itemArray = [];
-    for(let i=0; i<itemsByCategory.length; i++) {
+    for (const item of itemsByCategory.data) {
         const productUrl = await makeUrlForUs(item.productUrl);
 
         itemArray.push({
@@ -171,18 +171,6 @@ exports.handler = async (event, context) => {
             productUrl: productUrl,
         });
     }
-
-    // itemsByCategory.data.forEach(async (item) => {
-    //     const productUrl = await makeUrlForUs(item.productUrl);
-
-    //     itemArray.push({
-    //         productId: item.productId,
-    //         productName: item.productName,
-    //         productPrice: item.productPrice,
-    //         productImage: item.productImage,
-    //         productUrl: productUrl,
-    //     });
-    // });
     console.log("ITEM ARRAY:", itemArray);
 
     return {
