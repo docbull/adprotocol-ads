@@ -160,7 +160,7 @@ exports.handler = async (event, context) => {
     console.log('LOADED ITEMS:', itemsByCategory);
 
     const itemArray = [];
-    itemsByCategory.data.forEach(async (item) => {
+    for(let i=0; i<itemsByCategory.length; i++) {
         const productUrl = await makeUrlForUs(item.productUrl);
 
         itemArray.push({
@@ -170,7 +170,19 @@ exports.handler = async (event, context) => {
             productImage: item.productImage,
             productUrl: productUrl,
         });
-    });
+    }
+
+    // itemsByCategory.data.forEach(async (item) => {
+    //     const productUrl = await makeUrlForUs(item.productUrl);
+
+    //     itemArray.push({
+    //         productId: item.productId,
+    //         productName: item.productName,
+    //         productPrice: item.productPrice,
+    //         productImage: item.productImage,
+    //         productUrl: productUrl,
+    //     });
+    // });
     console.log("ITEM ARRAY:", itemArray);
 
     return {

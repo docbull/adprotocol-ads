@@ -8,7 +8,7 @@ const Coupang = () => {
 
     // 베스트 상품을 받아서 화면에 띄움 
     useEffect(() => {
-        // console.log(items);
+        console.log(items);
     }, []);
 
     return (
