@@ -18,6 +18,105 @@ function App() {
           exact={true}
           element={<Main />}
         />
+
+        {/* 쿠팡 */}
+        <Route
+          path="/1001"
+          exact={true}
+          element={<Main category={1001}/>}
+        />
+        <Route
+          path="/1002"
+          exact={true}
+          element={<Main category={1002}/>}
+        />
+        <Route
+          path="/1010"
+          exact={true}
+          element={<Main category={1010}/>}
+        />
+        <Route
+          path="/1011"
+          exact={true}
+          element={<Main category={1011}/>}
+        />
+        <Route
+          path="/1012"
+          exact={true}
+          element={<Main category={1012}/>}
+        />
+        <Route
+          path="/1013"
+          exact={true}
+          element={<Main category={1013}/>}
+        />
+        <Route
+          path="/1014"
+          exact={true}
+          element={<Main category={1014}/>}
+        />
+        <Route
+          path="/1015"
+          exact={true}
+          element={<Main category={1015}/>}
+        />
+        <Route
+          path="/1016"
+          exact={true}
+          element={<Main category={1016}/>}
+        />
+        <Route
+          path="/1017"
+          exact={true}
+          element={<Main category={1017}/>}
+        />
+        <Route
+          path="/1018"
+          exact={true}
+          element={<Main category={1018}/>}
+        />
+        <Route
+          path="/1019"
+          exact={true}
+          element={<Main category={1019}/>}
+        />
+        <Route
+          path="/1020"
+          exact={true}
+          element={<Main category={1020}/>}
+        />
+        <Route
+          path="/1021"
+          exact={true}
+          element={<Main category={1021}/>}
+        />
+        <Route
+          path="/1024"
+          exact={true}
+          element={<Main category={1024}/>}
+        />
+        <Route
+          path="/1025"
+          exact={true}
+          element={<Main category={1025}/>}
+        />
+        <Route
+          path="/1026"
+          exact={true}
+          element={<Main category={1026}/>}
+        />
+        <Route
+          path="/1029"
+          exact={true}
+          element={<Main category={1029}/>}
+        />
+        <Route
+          path="/1030"
+          exact={true}
+          element={<Main category={1030}/>}
+        />
+
+        {/* 광고주 광고 */}
         <Route
           path="/ad1"
           exact={true}

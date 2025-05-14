@@ -2,16 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import { useEffect, useState, useRef } from "react";
 
-const Main = ({ post }) => {
+import Coupang from "./Coupang";
 
-    useEffect(() => {
-
-      }, []);
-
+const Main = ({ category }) => {
     return (
-        <>
-            AD Protocol ...
-        </>
+        <MediaBoxWrapper>
+            <Coupang />
+        </MediaBoxWrapper>
     );
 };
 
