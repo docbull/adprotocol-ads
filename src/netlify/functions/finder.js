@@ -54,7 +54,7 @@ function cosineSimilarity(embedding1, embedding2) {
 
 const getCoupangBestItemsByCategory = async (category) => {
     try {
-        const url = `/v2/providers/affiliate_open_api/apis/openapi/v1/products/bestcategories/${category}?limit=10`;
+        const url = `/v2/providers/affiliate_open_api/apis/openapi/v1/products/bestcategories/${category}?limit=3`;
         const authorization = await generateHmac("GET", url, "70133b5e821616df4e3692a807000edc00f6f586", "4e1821c6-9dce-4d00-bd06-0b56acbb71ff");
 
         const res = await fetch(`https://api-gateway.coupang.com` + url, {
