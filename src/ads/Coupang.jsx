@@ -13,7 +13,6 @@ const Coupang = ({ category }) => {
         })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
             setItems(data.items);
         })
         .catch(console.error);
@@ -22,10 +21,10 @@ const Coupang = ({ category }) => {
     return (
         <AdWrapper>
             {items.map((item) => (
-                <>
-                    <img src={item.productImage} />
+                <CoupangItemWrapper>
+                    <CoupangImage src={item.productImage} />
                     <div> {item.productName} </div>
-                 </>
+                 </CoupangItemWrapper>
             ))}
         </AdWrapper>
     );
@@ -42,4 +41,13 @@ const AdWrapper = styled.div`
     justify-content: center;
 
     background-color: white;
+`;
+
+const CoupangItemWrapper = styled.div`
+    display: flex;
+`;
+
+const CoupangImage = styled.img`
+    width: 50%;
+
 `;
