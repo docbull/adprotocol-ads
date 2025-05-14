@@ -5,7 +5,7 @@ import { useEffect, useState, useRef } from "react";
 const Coupang = ({ category }) => {
     // const query = new URLSearchParams(window.location.search);
     // const items = JSON.parse(decodeURIComponent(query.get("items") || "[]"));
-    const { category } = useParams();
+    // const { category } = useParams();
     const [ items, setItems ] = useState([]);
 
     // 베스트 상품을 받아서 화면에 띄움
