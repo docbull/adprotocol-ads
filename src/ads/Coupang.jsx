@@ -14,10 +14,10 @@ const Coupang = ({ category }) => {
         .then(res => res.json())
         .then(data => {
             console.log(data);
-            setItems(data);
+            setItems(data.items);
         })
         .catch(console.error);
-    }, [items]);
+    }, [category]);
 
     return (
         <AdWrapper>
