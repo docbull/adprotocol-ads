@@ -20,7 +20,7 @@ const Coupang = ({ category }) => {
             setItems(data);
         })
         .catch(console.error);
-    }, [category]);
+    }, [items]);
 
     return (
         <AdWrapper>
