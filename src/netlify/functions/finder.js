@@ -124,32 +124,32 @@ exports.handler = async (event, context) => {
     const contentEmbedding = JSON.parse(event.body).keywords;
 
     const ads = [
-        { embedding: embedding1, number: 1001, url: "https://cool-pony-c67e5b.netlify.app/#/1001" },
-        { embedding: embedding2, number: 1002, url: "https://cool-pony-c67e5b.netlify.app/#/1002" },
-        { embedding: embedding3, number: 1010, url: "https://cool-pony-c67e5b.netlify.app/#/1010" },
-        { embedding: embedding4, number: 1011, url: "https://cool-pony-c67e5b.netlify.app/#/1011" },
-        { embedding: embedding5, number: 1012, url: "https://cool-pony-c67e5b.netlify.app/#/1012" },
-        { embedding: embedding6, number: 1013, url: "https://cool-pony-c67e5b.netlify.app/#/1013" },
-        { embedding: embedding7, number: 1014, url: "https://cool-pony-c67e5b.netlify.app/#/1014" },
-        { embedding: embedding8, number: 1015, url: "https://cool-pony-c67e5b.netlify.app/#/1015" },
-        { embedding: embedding9, number: 1016, url: "https://cool-pony-c67e5b.netlify.app/#/1016" },
-        { embedding: embedding10, number: 1017, url: "https://cool-pony-c67e5b.netlify.app/#/1017" },
-        { embedding: embedding11, number: 1018, url: "https://cool-pony-c67e5b.netlify.app/#/1018" },
-        { embedding: embedding12, number: 1019, url: "https://cool-pony-c67e5b.netlify.app/#/1019" },
-        { embedding: embedding13, number: 1020, url: "https://cool-pony-c67e5b.netlify.app/#/1020" },
-        { embedding: embedding14, number: 1021, url: "https://cool-pony-c67e5b.netlify.app/#/1021" },
-        { embedding: embedding15, number: 1024, url: "https://cool-pony-c67e5b.netlify.app/#/1024" },
-        { embedding: embedding16, number: 1025, url: "https://cool-pony-c67e5b.netlify.app/#/1025" },
-        { embedding: embedding17, number: 1026, url: "https://cool-pony-c67e5b.netlify.app/#/1026" },
-        { embedding: embedding18, number: 1029, url: "https://cool-pony-c67e5b.netlify.app/#/1029" },
-        { embedding: embedding19, number: 1030, url: "https://cool-pony-c67e5b.netlify.app/#/1030" },
+        { embedding: embedding1, name: "여성패션", number: 1001, url: "https://cool-pony-c67e5b.netlify.app/#/1001" },
+        { embedding: embedding2, name: "남성패션", number: 1002, url: "https://cool-pony-c67e5b.netlify.app/#/1002" },
+        { embedding: embedding3, name: "뷰티", number: 1010, url: "https://cool-pony-c67e5b.netlify.app/#/1010" },
+        { embedding: embedding4, name: "출산/유아동", number: 1011, url: "https://cool-pony-c67e5b.netlify.app/#/1011" },
+        { embedding: embedding5, name: "식품", number: 1012, url: "https://cool-pony-c67e5b.netlify.app/#/1012" },
+        { embedding: embedding6, name: "주방용품", number: 1013, url: "https://cool-pony-c67e5b.netlify.app/#/1013" },
+        { embedding: embedding7, name: "생활용품", number: 1014, url: "https://cool-pony-c67e5b.netlify.app/#/1014" },
+        { embedding: embedding8, name: "홈인테리어", number: 1015, url: "https://cool-pony-c67e5b.netlify.app/#/1015" },
+        { embedding: embedding9, name: "가전디지털", number: 1016, url: "https://cool-pony-c67e5b.netlify.app/#/1016" },
+        { embedding: embedding10, name: "스포츠/레저", number: 1017, url: "https://cool-pony-c67e5b.netlify.app/#/1017" },
+        { embedding: embedding11, name: "자동차용품", number: 1018, url: "https://cool-pony-c67e5b.netlify.app/#/1018" },
+        { embedding: embedding12, name: "도서/음반/DVD", number: 1019, url: "https://cool-pony-c67e5b.netlify.app/#/1019" },
+        { embedding: embedding13, name: "완구/취미", number: 1020, url: "https://cool-pony-c67e5b.netlify.app/#/1020" },
+        { embedding: embedding14, name: "문구/오피스", number: 1021, url: "https://cool-pony-c67e5b.netlify.app/#/1021" },
+        { embedding: embedding15, name: "헬스/건강식품", number: 1024, url: "https://cool-pony-c67e5b.netlify.app/#/1024" },
+        { embedding: embedding16, name: "국내여행", number: 1025, url: "https://cool-pony-c67e5b.netlify.app/#/1025" },
+        { embedding: embedding17, name: "해외여행", number: 1026, url: "https://cool-pony-c67e5b.netlify.app/#/1026" },
+        { embedding: embedding18, name: "반려동물용품", number: 1029, url: "https://cool-pony-c67e5b.netlify.app/#/1029" },
+        { embedding: embedding19, name: "유아동패션", number: 1030, url: "https://cool-pony-c67e5b.netlify.app/#/1030" },
     ];
 
     let highestAd = 0;
     let adIndex = 0;
     ads.forEach((ad, idx) => {
         const similarity = cosineSimilarity(contentEmbedding, ad.embedding);
-        console.log("similarity:", similarity);
+        console.log(`${ads[idx].name} >> similarity: ${similarity}`);
         if (similarity >= highestAd) {
             highestAd = similarity;
             adIndex = idx;
@@ -160,7 +160,7 @@ exports.handler = async (event, context) => {
     console.log('LOADED ITEMS:', itemsByCategory);
 
     const itemArray = [];
-    itemsByCategory.forEach(async (item) => {
+    itemsByCategory.data.forEach(async (item) => {
         const productUrl = await makeUrlForUs(item.productUrl);
 
         itemArray.push({

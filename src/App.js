@@ -1,5 +1,6 @@
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import Main from "./ads/Main";
+import Coupang from "./ads/Coupang";
 import Ad1 from "./ads/Ad1";
 import Ad2 from "./ads/Ad2";
 import Ad3 from "./ads/Ad3";
@@ -23,97 +24,97 @@ function App() {
         <Route
           path="/1001"
           exact={true}
-          element={<Main category={1001}/>}
+          element={<Coupang category={1001}/>}
         />
         <Route
           path="/1002"
           exact={true}
-          element={<Main category={1002}/>}
+          element={<Coupang category={1002}/>}
         />
         <Route
           path="/1010"
           exact={true}
-          element={<Main category={1010}/>}
+          element={<Coupang category={1010}/>}
         />
         <Route
           path="/1011"
           exact={true}
-          element={<Main category={1011}/>}
+          element={<Coupang category={1011}/>}
         />
         <Route
           path="/1012"
           exact={true}
-          element={<Main category={1012}/>}
+          element={<Coupang category={1012}/>}
         />
         <Route
           path="/1013"
           exact={true}
-          element={<Main category={1013}/>}
+          element={<Coupang category={1013}/>}
         />
         <Route
           path="/1014"
           exact={true}
-          element={<Main category={1014}/>}
+          element={<Coupang category={1014}/>}
         />
         <Route
           path="/1015"
           exact={true}
-          element={<Main category={1015}/>}
+          element={<Coupang category={1015}/>}
         />
         <Route
           path="/1016"
           exact={true}
-          element={<Main category={1016}/>}
+          element={<Coupang category={1016}/>}
         />
         <Route
           path="/1017"
           exact={true}
-          element={<Main category={1017}/>}
+          element={<Coupang category={1017}/>}
         />
         <Route
           path="/1018"
           exact={true}
-          element={<Main category={1018}/>}
+          element={<Coupang category={1018}/>}
         />
         <Route
           path="/1019"
           exact={true}
-          element={<Main category={1019}/>}
+          element={<Coupang category={1019}/>}
         />
         <Route
           path="/1020"
           exact={true}
-          element={<Main category={1020}/>}
+          element={<Coupang category={1020}/>}
         />
         <Route
           path="/1021"
           exact={true}
-          element={<Main category={1021}/>}
+          element={<Coupang category={1021}/>}
         />
         <Route
           path="/1024"
           exact={true}
-          element={<Main category={1024}/>}
+          element={<Coupang category={1024}/>}
         />
         <Route
           path="/1025"
           exact={true}
-          element={<Main category={1025}/>}
+          element={<Coupang category={1025}/>}
         />
         <Route
           path="/1026"
           exact={true}
-          element={<Main category={1026}/>}
+          element={<Coupang category={1026}/>}
         />
         <Route
           path="/1029"
           exact={true}
-          element={<Main category={1029}/>}
+          element={<Coupang category={1029}/>}
         />
         <Route
           path="/1030"
           exact={true}
-          element={<Main category={1030}/>}
+          element={<Coupang category={1030}/>}
         />
 
         {/* 광고주 광고 */}
