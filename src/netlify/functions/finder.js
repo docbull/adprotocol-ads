@@ -175,6 +175,6 @@ exports.handler = async (event, context) => {
 
     return {
         statusCode: 200,
-        body: JSON.stringify({ adUrl: `${ads[adIndex].url}/items=${encodeURIComponent(JSON.stringify(itemArray))}` }),
+        body: JSON.stringify({ adUrl: `${ads[adIndex].url}?items=${encodeURIComponent(JSON.stringify(itemArray))}` }),
     }
 }
