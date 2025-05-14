@@ -73,14 +73,14 @@ exports.handler = async (event, context) => {
 
     const itemArray = [];
     for (const item of itemsByCategory.data) {
-        const productUrl = await makeUrlForUs(item.productUrl);
+        // const productUrl = await makeUrlForUs(item.productUrl);
 
         itemArray.push({
             productId: item.productId,
             productName: item.productName,
             productPrice: item.productPrice,
             productImage: item.productImage,
-            productUrl: productUrl,
+            // productUrl: productUrl,
         });
     }
     console.log("ITEM ARRAY:", itemArray);
