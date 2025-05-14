@@ -1,23 +1,3 @@
-import embedding1 from "../../ads/embeddings/1001.json";
-import embedding2 from "../../ads/embeddings/1002.json";
-import embedding3 from "../../ads/embeddings/1010.json";
-import embedding4 from "../../ads/embeddings/1011.json";
-import embedding5 from "../../ads/embeddings/1012.json";
-import embedding6 from "../../ads/embeddings/1013.json";
-import embedding7 from "../../ads/embeddings/1014.json";
-import embedding8 from "../../ads/embeddings/1015.json";
-import embedding9 from "../../ads/embeddings/1016.json";
-import embedding10 from "../../ads/embeddings/1017.json";
-import embedding11 from "../../ads/embeddings/1018.json";
-import embedding12 from "../../ads/embeddings/1019.json";
-import embedding13 from "../../ads/embeddings/1020.json";
-import embedding14 from "../../ads/embeddings/1021.json";
-import embedding15 from "../../ads/embeddings/1024.json";
-import embedding16 from "../../ads/embeddings/1025.json";
-import embedding17 from "../../ads/embeddings/1026.json";
-import embedding18 from "../../ads/embeddings/1029.json";
-import embedding19 from "../../ads/embeddings/1030.json";
-
 const getCoupangBestItemsByCategory = async (category) => {
     try {
         const url = `/v2/providers/affiliate_open_api/apis/openapi/v1/products/bestcategories/${category}?limit=3`;
@@ -107,6 +87,6 @@ exports.handler = async (event, context) => {
 
     return {
         statusCode: 200,
-        body: JSON.stringify({ adUrl: `${ads[adIndex].url}?items=${encodeURIComponent(JSON.stringify(itemArray))}` }),
+        body: JSON.stringify({ items: itemArray }),
     }
 }
