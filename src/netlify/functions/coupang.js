@@ -71,16 +71,23 @@ exports.handler = async (event, context) => {
     const itemsByCategory = await getCoupangBestItemsByCategory(category);
     console.log('LOADED ITEMS:', itemsByCategory);
 
+    const urls = [];
+    for (const item of itemsByCategory.data) {
+        urls.push(item.productUrl);
+    }
+
+    const productUrls = await makeUrlForUs(urls);
+
     const itemArray = [];
     for (const item of itemsByCategory.data) {
-        // const productUrl = await makeUrlForUs(item.productUrl);
-
         itemArray.push({
             productId: item.productId,
             productName: item.productName,
             productPrice: item.productPrice,
             productImage: item.productImage,
-            // productUrl: productUrl,
+            isRocket: item.isRocket,
+            isFreeShipping: item.isFreeShipping,
+            productUrl: productUrls[itemArray.length],
         });
     }
     console.log("ITEM ARRAY:", itemArray);

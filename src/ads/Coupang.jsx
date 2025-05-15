@@ -7,6 +7,8 @@ const Coupang = ({ category }) => {
 
     // 베스트 상품을 받아서 화면에 띄움
     useEffect(() => {
+        const c =  category !== undefined ? category : 1001;
+
         fetch(`/.netlify/functions/coupang`, {
             method: "POST",
             body: JSON.stringify({ category: category }),
@@ -45,6 +47,8 @@ const AdWrapper = styled.div`
 
 const CoupangItemWrapper = styled.div`
     display: flex;
+    flex-direction: column;
+
 `;
 
 const CoupangImage = styled.img`

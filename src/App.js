@@ -22,7 +22,7 @@ function App() {
 
         {/* 쿠팡 */}
         <Route
-          path="/:category"
+          path="/test"
           element={<Coupang />}
         />
         <Route
