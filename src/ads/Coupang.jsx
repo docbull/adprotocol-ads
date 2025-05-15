@@ -12,6 +12,8 @@ const Coupang = ({ category }) => {
         fetch(`/.netlify/functions/coupang`, {
             method: "POST",
             body: JSON.stringify({ category: category }),
+            // mode: "no-cors",
+            // body: JSON.stringify({ category: '1002' }),
         })
         .then(res => res.json())
         .then(data => {
