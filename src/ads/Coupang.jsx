@@ -9,25 +9,40 @@ const Coupang = ({ category }) => {
     useEffect(() => {
         const c =  category !== undefined ? category : 1001;
 
-        fetch(`/.netlify/functions/coupang`, {
+        fetch(`https://cool-pony-c67e5b.netlify.app/.netlify/functions/coupang`, {
             method: "POST",
-            body: JSON.stringify({ category: category }),
+            // body: JSON.stringify({ category: category }),
             // mode: "no-cors",
-            // body: JSON.stringify({ category: '1002' }),
+            body: JSON.stringify({ category: '1002' }),
         })
         .then(res => res.json())
         .then(data => {
+            console.log(data.items);
             setItems(data.items);
         })
         .catch(console.error);
     }, [category]);
 
+    const coupangClickEvent = (url) => {
+        console.log(url);
+    }
+
     return (
         <AdWrapper>
-            {items.map((item) => (
-                <CoupangItemWrapper>
+            {items.map((item, idx) => (
+                <CoupangItemWrapper key={idx}>
                     <CoupangImage src={item.productImage} />
-                    <div> {item.productName} </div>
+                    <CoupangDescription>
+                        <CoupangItemName> {item.productName} </CoupangItemName>
+                        <CoupangItemName>  {item.productPrice} </CoupangItemName>
+                        <div style={{margin: "5px 0"}}>
+                            {item.isFreeShipping ? <CoupangFreeShipping> 무료배송 </CoupangFreeShipping> : <></>}
+                            {item.isRocket ? <CoupangRocketShipping> 빠른배송 </CoupangRocketShipping> : <></>}
+                        </div>
+                        {/* {item.isFreeShipping ? <CoupangFreeShipping> 무료배송 </CoupangFreeShipping> : <></>}
+                        {item.isRocket ? <CoupangRocketShipping> 빠른배송 </CoupangRocketShipping> : <></>} */}
+                        <CoupangSeeDetails onClick={() => coupangClickEvent(item.productUrl)}> 지금 보러가기 </CoupangSeeDetails>
+                    </CoupangDescription>
                  </CoupangItemWrapper>
             ))}
         </AdWrapper>
@@ -37,23 +52,75 @@ const Coupang = ({ category }) => {
 export default Coupang;
 
 const AdWrapper = styled.div`
-    width: 100%;
-    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #fefefe;
+    border-radius: 10px;
+    padding: 10px;
+
+    font-weight: bold;
+`;
+
+const CoupangItemWrapper = styled.div`
+    width: 200px;
+
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 10px;
+    filter: drop-shadow(0 0 0.25em lightgray);
+    background: white;
+
+    overflow: hidden;
+`;
+
+const CoupangImage = styled.img`
+    fit-content: contain;
+`;
+
+const CoupangDescription = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    padding: 10px;
+`;
+
+const CoupangItemName = styled.span`
+    margin: 5px 0;
+`;
+
+const CoupangFreeShipping = styled.div`
+    border-radius: 5px;
+    
+`;
+
+const CoupangRocketShipping = styled.div`
+    border-radius: 7px;
+    background: #EAF3FE;
+    padding: 2px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    background-color: white;
+    color: #3A7AF4;
 `;
 
-const CoupangItemWrapper = styled.div`
+const CoupangSeeDetails = styled.div`
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 
-`;
+    margin: 5px 0;
 
-const CoupangImage = styled.img`
-    width: 50%;
+    border-radius: 10px;
+    padding: 10px;
+    background: #3878F2;
+    color: white;
 
+    &:hover {
+        cursor: pointer;
+    }
 `;
