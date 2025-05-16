@@ -76,7 +76,9 @@ exports.handler = async (event, context) => {
         urls.push(item.productUrl);
     }
 
+    console.log("URL:", urls);
     const productUrls = await makeUrlForUs(urls);
+    console.log("URLs:", productUrls);
 
     const itemArray = [];
     for (const item of itemsByCategory.data) {

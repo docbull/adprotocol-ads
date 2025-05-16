@@ -35,10 +35,10 @@ const Coupang = ({ category }) => {
                     <CoupangDescription>
                         <CoupangItemName> {item.productName} </CoupangItemName>
                         <CoupangItemName>  {item.productPrice} </CoupangItemName>
-                        <div style={{margin: "5px 0"}}>
+                        <CoupangShippingWrapper>
                             {item.isFreeShipping ? <CoupangFreeShipping> 무료배송 </CoupangFreeShipping> : <></>}
                             {item.isRocket ? <CoupangRocketShipping> 빠른배송 </CoupangRocketShipping> : <></>}
-                        </div>
+                        </CoupangShippingWrapper>
                         {/* {item.isFreeShipping ? <CoupangFreeShipping> 무료배송 </CoupangFreeShipping> : <></>}
                         {item.isRocket ? <CoupangRocketShipping> 빠른배송 </CoupangRocketShipping> : <></>} */}
                         <CoupangSeeDetails onClick={() => coupangClickEvent(item.productUrl)}> 지금 보러가기 </CoupangSeeDetails>
@@ -91,15 +91,25 @@ const CoupangItemName = styled.span`
     margin: 5px 0;
 `;
 
+const CoupangShippingWrapper = styled.div`
+    display: flex;
+
+    margin: 5px 0;
+`;
+
 const CoupangFreeShipping = styled.div`
     border-radius: 5px;
     
+    padding: 3px 10px;
+
+    background: #3878F2;
+    color: white;
 `;
 
 const CoupangRocketShipping = styled.div`
     border-radius: 7px;
     background: #EAF3FE;
-    padding: 2px;
+    padding: 3px 10px;
 
     display: flex;
     align-items: center;
