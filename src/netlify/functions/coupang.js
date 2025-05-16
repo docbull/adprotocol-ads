@@ -1,7 +1,7 @@
 const getCoupangBestItemsByCategory = async (category) => {
     try {
         const url = `/v2/providers/affiliate_open_api/apis/openapi/v1/products/bestcategories/${category}?limit=3`;
-        const authorization = await generateHmac("GET", url, "70133b5e821616df4e3692a807000edc00f6f586", "4e1821c6-9dce-4d00-bd06-0b56acbb71ff");
+        const authorization = await generateHmac("GET", url, process.env.REACT_APP_KEY, process.env.REACT_APP_AU);
 
         const res = await fetch(`https://api-gateway.coupang.com` + url, {
             method: "GET",
@@ -20,7 +20,7 @@ const getCoupangBestItemsByCategory = async (category) => {
 const makeUrlForUs = async (urls) => {
     try {
         const url = `/v2/providers/affiliate_open_api/apis/openapi/v1/deeplink`;
-        const authorization = await generateHmac("POST", url, "70133b5e821616df4e3692a807000edc00f6f586", "4e1821c6-9dce-4d00-bd06-0b56acbb71ff");
+        const authorization = await generateHmac("POST", url, process.env.REACT_APP_KEY, process.env.REACT_APP_AU);
 
         const request = {
             "coupangUrls": urls
