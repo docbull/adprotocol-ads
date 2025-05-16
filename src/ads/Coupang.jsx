@@ -16,6 +16,18 @@ const Coupang = ({ category }) => {
             setItems(data.items);
         })
         .catch(console.error);
+
+        const sendHeight = () => {
+            const height = document.body.scrollHeight;
+            window.parent.postMessage({ type: "ladder-ad-height", height }, '*');
+        }
+
+        sendHeight();
+
+        const observer = new ResizeObserver(sendHeight);
+        observer.observe(document.body);
+
+        return () => observer.disconnect();
     }, [category]);
 
     const coupangClickEvent = (url) => {
