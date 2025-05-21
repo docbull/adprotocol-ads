@@ -21,8 +21,6 @@ const Coupang = ({ category }) => {
             const height = document.body.scrollHeight;
             console.log(height);
             window.parent.postMessage({ type: "ladder-ad-height", height }, "*");
-
-            window.alert(height);
         }
 
         // window.addEventListener("message", (e) => {
