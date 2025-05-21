@@ -13,6 +13,8 @@ const Coupang = ({ category }) => {
         })
         .then(res => res.json())
         .then(data => {
+            window.parent.postMessage("TEST", "*");
+
             setItems(data.items);
         })
         .catch(console.error);
