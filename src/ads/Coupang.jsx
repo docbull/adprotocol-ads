@@ -21,17 +21,17 @@ const Coupang = ({ category }) => {
             const height = document.body.scrollHeight;
             console.log(height);
             try {
-                window.parent.postMessage({ type: "ladder-ad-height", height }, "*");
+                window.postMessage({ type: "ladder-ad-height", height }, "*");
             } catch (err) {
                 console.log(err);
             }
         }
 
-        window.addEventListener("message", (e) => {
-            if (e.data?.type === "heightRequest") {
-                sendHeight();
-            }
-        });
+        // window.addEventListener("message", (e) => {
+        //     if (e.data?.type === "heightRequest") {
+        //         sendHeight();
+        //     }
+        // });
 
         window.addEventListener("load", sendHeight);
         window.addEventListener("resize", sendHeight);
