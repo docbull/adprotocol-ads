@@ -20,7 +20,7 @@ const Coupang = ({ category }) => {
         const sendHeight = () => {
             const height = document.body.scrollHeight;
             console.log(height);
-            console.log(window.parent);
+            window.parent.alert(height);
             window.parent.postMessage({ type: "ladder-ad-height", height: height }, "*");
         }
 
