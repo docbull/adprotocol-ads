@@ -17,17 +17,27 @@ const Coupang = ({ category }) => {
         })
         .catch(console.error);
 
-        const sendHeight = () => {
+        function sendHeight() {
             const height = document.body.scrollHeight;
+            console.log(height);
             window.parent.postMessage({ type: "ladder-ad-height", height }, '*');
         }
 
-        sendHeight();
+        window.addEventListener('load', sendHeight);
+        window.addEventListener('resize', sendHeight);
 
-        const observer = new ResizeObserver(sendHeight);
-        observer.observe(document.body);
+        // const sendHeight = () => {
+        //     const height = document.body.scrollHeight;
+        //     console.log(height);
+        //     window.parent.postMessage({ type: "ladder-ad-height", height }, '*');
+        // }
 
-        return () => observer.disconnect();
+        // sendHeight();
+
+        // const observer = new ResizeObserver(sendHeight);
+        // observer.observe(document.body);
+
+        // return () => observer.disconnect();
     }, [category]);
 
     const coupangClickEvent = (url) => {
