@@ -19,8 +19,6 @@ const Coupang = ({ category }) => {
 
         const sendHeight = () => {
             const height = document.body.scrollHeight;
-            console.log(height);
-            window.parent.alert(height);
             window.parent.postMessage({ type: "ladder-ad-height", height: height }, "*");
         }
 
@@ -28,13 +26,6 @@ const Coupang = ({ category }) => {
         window.addEventListener("resize", sendHeight);
 
         new ResizeObserver(sendHeight).observe(document.body);
-
-        // sendHeight();
-
-        // const observer = new ResizeObserver(sendHeight);
-        // observer.observe(document.body);
-
-        // return () => observer.disconnect();
     }, [category]);
 
     const coupangClickEvent = (url) => {
