@@ -19,6 +19,7 @@ const Coupang = ({ category }) => {
 
         const sendHeight = () => {
             console.log("IS PARENT?", window.parent !== window);
+            console.log(window.parent.location.href);
 
             const height = document.body.scrollHeight;
             try {
