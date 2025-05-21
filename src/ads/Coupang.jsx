@@ -13,8 +13,6 @@ const Coupang = ({ category }) => {
         })
         .then(res => res.json())
         .then(data => {
-            window.parent.postMessage("TEST", "*");
-
             setItems(data.items);
         })
         .catch(console.error);
@@ -22,12 +20,17 @@ const Coupang = ({ category }) => {
         const sendHeight = () => {
             const height = document.body.scrollHeight;
             try {
-                window.parent.postMessage("TEST", "*");
-                // window.parent.postMessage({ type: "ladder-ad-height", height }, "*");
+                window.parent.postMessage({ type: "ladder-ad-height", height }, "*");
             } catch (err) {
                 console.log(err);
             }
         }
+
+        window.addEventListener("message", (e) => {
+            if (e.data?.type === "heightRequest") {
+                sendHeight();
+            }
+        });
 
         window.addEventListener("load", sendHeight);
         window.addEventListener("resize", sendHeight);
