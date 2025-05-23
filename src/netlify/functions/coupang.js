@@ -68,9 +68,7 @@ const generateHmac = async (method, url, secretKey, accessKey) => {
 exports.handler = async (event, context) => {
     const category = JSON.parse(event.body).category;
 
-    var start = Date.now();
     const itemsByCategory = await getCoupangBestItemsByCategory(category);
-    console.log("Coupang latench:", Date.now() - start);
     console.log('LOADED ITEMS:', itemsByCategory);
 
     const itemArray = [];

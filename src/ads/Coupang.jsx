@@ -21,10 +21,6 @@ const Coupang = ({ category }) => {
         .then(res => res.json())
         .then(data => {
             const iframeWidth = Number(document.body.scrollWidth);
-            console.log(iframeWidth <= 400);
-
-            console.log("Netlify latency:", Date.now() - start);
-
             if (iframeWidth <= 400) {
                 setIsMobile(true);
                 setItems(data.items);
@@ -86,11 +82,11 @@ const Coupang = ({ category }) => {
                         </CoupangDescription>
                     </CoupangItemWrapper>
                 :
+                    // show item lists with slides
                     <CoupangItemWrapperMobile key={idx}>
                         asfasdf
                     </CoupangItemWrapperMobile>
             ))}
-            <div onClick={testClick} style={{position: "absolute", bottom: "0"}}>BUTTON</div>
         </AdWrapper>
         // </div>
     );
