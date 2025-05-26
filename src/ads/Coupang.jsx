@@ -73,12 +73,12 @@ const Coupang = ({ category }) => {
                         </CoupangImageWrapper>
                         <CoupangDescription>
                             <CoupangItemName> {item.productName} </CoupangItemName>
-                            <CoupangItemName>  ₩{item.productPrice.toLocaleString()} </CoupangItemName>
-                            {/* <CoupangShippingWrapper>
-                                {item.isFreeShipping ? <CoupangFreeShipping> 무료배송 </CoupangFreeShipping> : <></>}
-                                {item.isRocket ? <CoupangRocketShipping> 빠른배송 </CoupangRocketShipping> : <></>}
-                            </CoupangShippingWrapper> */}
-                            <CoupangSeeDetails onClick={() => coupangClickEvent(item.productUrl)}> 지금 보러가기 </CoupangSeeDetails>
+                            <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignContent: "center"}}>
+                                <CoupangItemName>  ₩{item.productPrice.toLocaleString()} </CoupangItemName>
+                                <CoupangSeeDetails2 onClick={() => coupangClickEvent(item.productUrl)}> 자세히 → </CoupangSeeDetails2>
+                            </div>
+                            {/* <CoupangItemName>  ₩{item.productPrice.toLocaleString()} </CoupangItemName>
+                            <CoupangSeeDetails onClick={() => coupangClickEvent(item.productUrl)}> 지금 보러가기 </CoupangSeeDetails> */}
                         </CoupangDescription>
                     </CoupangItemWrapper>
                 :
@@ -106,7 +106,7 @@ const AdWrapper = styled.div`
 `;
 
 const CoupangItemWrapper = styled.div`
-    width: 150px;
+    width: 200px;
 
     display: flex;
     flex-direction: column;
@@ -220,6 +220,25 @@ const CoupangSeeDetails = styled.div`
     font-size: 0.9rem;
 
     margin-top: 0.3rem;
+
+    border-radius: 10px;
+    padding: 0.35rem;
+    background: #3878F2;
+    color: white;
+
+    &:hover {
+        cursor: pointer;
+    }
+`;
+
+const CoupangSeeDetails2 = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 0.9rem;
+
+    // margin-top: 0.3rem;
 
     border-radius: 10px;
     padding: 0.35rem;
