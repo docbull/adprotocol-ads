@@ -74,11 +74,11 @@ const Coupang = ({ category }) => {
                         <CoupangDescription>
                             <CoupangItemName> {item.productName} </CoupangItemName>
                             <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignContent: "center"}}>
-                                <CoupangItemName>  ₩{item.productPrice.toLocaleString()} </CoupangItemName>
-                                <CoupangSeeDetails2 onClick={() => coupangClickEvent(item.productUrl)}> 자세히 → </CoupangSeeDetails2>
+                                <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName>  ₩{item.productPrice.toLocaleString()} </CoupangItemName> </div>
+                                {/* <CoupangSeeDetails2 onClick={() => coupangClickEvent(item.productUrl)}> 자세히 → </CoupangSeeDetails2> */}
                             </div>
-                            {/* <CoupangItemName>  ₩{item.productPrice.toLocaleString()} </CoupangItemName>
-                            <CoupangSeeDetails onClick={() => coupangClickEvent(item.productUrl)}> 지금 보러가기 </CoupangSeeDetails> */}
+                            {/* <CoupangItemName>  ₩{item.productPrice.toLocaleString()} </CoupangItemName> */}
+                            <CoupangSeeDetails onClick={() => coupangClickEvent(item.productUrl)}> 지금 보러가기 </CoupangSeeDetails>
                         </CoupangDescription>
                     </CoupangItemWrapper>
                 :
@@ -87,6 +87,10 @@ const Coupang = ({ category }) => {
                         모바일 슬라이드 형식; 아이템은 하나씩 자동 슬라이드 설정
                     </CoupangItemWrapperMobile>
             ))}
+
+            {/* <div>
+                Coupang...
+            </div> */}
         </AdWrapper>
         // </div>
     );
@@ -106,11 +110,11 @@ const AdWrapper = styled.div`
 `;
 
 const CoupangItemWrapper = styled.div`
-    width: 200px;
+    width: 180px;
 
     display: flex;
     flex-direction: column;
-    margin: 0 10px;
+    margin: 0 20px;
 
     border-radius: 10px;
     filter: drop-shadow(0 0 0.25em lightgray);
@@ -197,12 +201,12 @@ const CoupangFreeShipping = styled.div`
 `;
 
 const CoupangRocketShipping = styled.div`
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.8rem;
+    height: 1.8rem;
     border-radius: 50%;
     padding: 0.5rem;
 
-    font-size: 0.7rem;
+    font-size: 0.8rem;
 
     display: flex;
     align-items: center;

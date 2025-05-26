@@ -52,6 +52,15 @@ function cosineSimilarity(embedding1, embedding2) {
     return similarity;
 }
 
+// getRecomendedItems 
+function getRecomendedItems(embedding) {
+    // 1. 관련 쿠팡 상품 정보 받아옴
+    // 2. 해당 상품의 키워드와 content embedding 비교
+    // 3. 연관도가 높은 상품 내림차순 정렬
+    // 4. 
+}
+
+
 exports.handler = async (event, context) => {
     const contentEmbedding = JSON.parse(event.body).keywords;
 
