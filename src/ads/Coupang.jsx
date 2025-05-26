@@ -67,8 +67,8 @@ const Coupang = ({ category }) => {
                         <CoupangImageWrapper> 
                             <CoupangImage src={item.productImage} />
                             <CoupangShippingWrapper>
-                                {item.isFreeShipping ? <CoupangFreeShipping> 무료배송 </CoupangFreeShipping> : <></>}
-                                {item.isRocket ? <CoupangRocketShipping> 빠른배송 </CoupangRocketShipping> : <></>}
+                                {item.isFreeShipping ? <CoupangFreeShipping> 무료<br></br>배송 </CoupangFreeShipping> : <></>}
+                                {item.isRocket ? <CoupangRocketShipping> 로켓<br></br>배송 </CoupangRocketShipping> : <></>}
                             </CoupangShippingWrapper>
                         </CoupangImageWrapper>
                         <CoupangDescription>
@@ -84,7 +84,7 @@ const Coupang = ({ category }) => {
                 :
                     // show item lists with slides
                     <CoupangItemWrapperMobile key={idx}>
-                        asfasdf
+                        모바일 슬라이드 형식; 아이템은 하나씩 자동 슬라이드 설정
                     </CoupangItemWrapperMobile>
             ))}
         </AdWrapper>
@@ -106,9 +106,7 @@ const AdWrapper = styled.div`
 `;
 
 const CoupangItemWrapper = styled.div`
-    width: 200px;
-    // width: 15rem;
-    // height: 365px;
+    width: 150px;
 
     display: flex;
     flex-direction: column;
@@ -119,6 +117,12 @@ const CoupangItemWrapper = styled.div`
     background: white;
 
     overflow: hidden;
+
+    &:hover {
+        // background-color: #0056d6;
+        transform: scale(1.03);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
 `;
 
 const CoupangImageWrapper = styled.div`
@@ -141,7 +145,7 @@ const CoupangDescription = styled.div`
     display: flex;
     flex-direction: column;
 
-    padding: 0.5rem 1.3rem;
+    padding: 0.5rem 1rem;
 `;
 
 const CoupangItemName = styled.span`
@@ -155,7 +159,7 @@ const CoupangItemName = styled.span`
     overflow: hidden;
     text-overflow: ellipsis;
 
-    font-size: 1.1rem;
+    font-size: 0.9rem;
 `;
 
 const CoupangShippingWrapper = styled.div`
@@ -166,29 +170,38 @@ const CoupangShippingWrapper = styled.div`
 
     display: flex;
 
-    margin: 0.3rem 0;
+    margin: 0.3rem;
 `;
 
 const CoupangFreeShipping = styled.div`
-    border-radius: 5px;
-    
-    padding: 0.2rem 0.6rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    padding: 0.5rem;
+
+    font-size: 0.8rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     background: #3878F2;
     color: white;
 `;
 
 const CoupangRocketShipping = styled.div`
-    border-radius: 7px;
-    background: #EAF3FE;
-    padding: 0.2rem 0.6rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    padding: 0.5rem;
 
-    font-size: 0.9rem;
+    font-size: 0.7rem;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
+    background: #EAF3FE;
     color: #3A7AF4;
 `;
 
@@ -197,10 +210,12 @@ const CoupangSeeDetails = styled.div`
     align-items: center;
     justify-content: center;
 
-    margin: 0.3rem 0;
+    font-size: 0.9rem;
+
+    margin-top: 0.3rem;
 
     border-radius: 10px;
-    padding: 0.5rem;
+    padding: 0.35rem;
     background: #3878F2;
     color: white;
 
