@@ -75,10 +75,10 @@ const Coupang = ({ category }) => {
                             <CoupangItemName> {item.productName} </CoupangItemName>
                             <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignContent: "center"}}>
                                 <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName>  ₩{item.productPrice.toLocaleString()} </CoupangItemName> </div>
-                                {/* <CoupangSeeDetails2 onClick={() => coupangClickEvent(item.productUrl)}> 자세히 → </CoupangSeeDetails2> */}
+                                <CoupangSeeDetails2 onClick={() => coupangClickEvent(item.productUrl)}> 자세히 → </CoupangSeeDetails2>
                             </div>
                             {/* <CoupangItemName>  ₩{item.productPrice.toLocaleString()} </CoupangItemName> */}
-                            <CoupangSeeDetails onClick={() => coupangClickEvent(item.productUrl)}> 지금 보러가기 </CoupangSeeDetails>
+                            {/* <CoupangSeeDetails onClick={() => coupangClickEvent(item.productUrl)}> 지금 보러가기 </CoupangSeeDetails> */}
                         </CoupangDescription>
                     </CoupangItemWrapper>
                 :
@@ -110,7 +110,7 @@ const AdWrapper = styled.div`
 `;
 
 const CoupangItemWrapper = styled.div`
-    width: 180px;
+    width: 200px;
 
     display: flex;
     flex-direction: column;
