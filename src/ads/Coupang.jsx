@@ -118,10 +118,15 @@ const CoupangItemWrapper = styled.div`
 
     overflow: hidden;
 
+    transition: ease-in-out 0.2s;
+
     &:hover {
-        // background-color: #0056d6;
-        transform: scale(1.03);
+        img {
+            transform: scale(1.05);
+            transition: ease-in-out 0.2s;
+        }
         box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        transition: ease-in-out 0.2s;
     }
 `;
 
@@ -139,6 +144,8 @@ const CoupangImage = styled.img`
     width: 100%;
     // height: 100%;
     fit-content: cover;
+
+    transition: ease-in-out 0.2s;
 `;
 
 const CoupangDescription = styled.div`
