@@ -62,11 +62,7 @@ const Coupang = ({ category }) => {
 
         window.open(url, "_blank");
     }
-
-    const heightCheck = () => {
-        console.log(document.body.scrollHeight);
-    }
-
+    
     return (
         <AdWrapper>
             {!isMobile ? 
@@ -82,7 +78,7 @@ const Coupang = ({ category }) => {
                     </CoupangImageWrapper>
                     <CoupangDescription>
                         <CoupangItemName> {item.productName} </CoupangItemName>
-                        <div style={{margin: "5px 0", width: "100%", display: "flex", justifyContent: "space-between", alignContent: "center"}}>
+                        <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignContent: "center"}}>
                             <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName>  ₩{item.productPrice.toLocaleString()} </CoupangItemName> </div>
                             {/* <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName>  ₩1,930,300 </CoupangItemName> </div> */}
                             <CoupangSeeDetails2 onClick={() => coupangClickEvent(item.productUrl)}> 자세히 → </CoupangSeeDetails2>
@@ -109,7 +105,7 @@ const Coupang = ({ category }) => {
                                     {item.isRocket ? <CoupangRocketShipping2 style={{fontSize: "0.9rem"}}> 로켓배송 </CoupangRocketShipping2> : <></>}
                                 </CoupangShippingMobileWrapper> */}
                                 <CoupangItemName class="ladder-mobile-text"> {item.productName} </CoupangItemName>
-                                <div style={{margin: "5px 0", width: "100%", display: "flex", justifyContent: "space-between", alignContent: "center"}}>
+                                <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignContent: "center"}}>
                                     <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName class="ladder-mobile-text">  ₩{item.productPrice.toLocaleString()} </CoupangItemName> </div>
                                     {/* <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName>  ₩993,000 </CoupangItemName> </div> */}
                                     <CoupangSeeDetails2 style={{fontSize: "0.7rem"}} onClick={() => coupangClickEvent(item.productUrl)}> 자세히 → </CoupangSeeDetails2>
@@ -120,8 +116,6 @@ const Coupang = ({ category }) => {
                 })}
             </Slider>
             }
-
-            <div style={{position: "absolute", bottom: "0"}} onClick={heightCheck}>asdfasdfasf</div>
         </AdWrapper>
     );
 };
