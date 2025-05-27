@@ -1,17 +1,27 @@
 import React from "react";
 import styled from "styled-components";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 
-
-// 반응형
-// 기본 3개, 600px 이하일 때 2개, 
-// 모바일(400px 이하)에서 디자인 2 적용
+import Slider from "react-slick";
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
 
 const Coupang = ({ category }) => {
     const [ isMobile, setIsMobile ] = useState(false);
     const [ items, setItems ] = useState([]);
 
-    // 베스트 상품을 받아서 화면에 띄움
+    const slickRef = useRef(null);
+    var settings = {
+        initialSlide: 0,
+        arrows: false,
+        infinite: true,
+        autoplay: true,
+        autoplaySpeed: 5000,
+        speed: 1000,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+    }
+
     useEffect(() => {
         var start = Date.now();
         fetch(`https://cool-pony-c67e5b.netlify.app/.netlify/functions/coupang`, {
@@ -38,7 +48,6 @@ const Coupang = ({ category }) => {
 
             // find parents til no more parent
             window.parent.parent.postMessage({ type: "ladder-ad-height", height }, "*");
-            // window.parent.postMessage({ type: "ladder-ad-height", height }, "*");
         }
 
         window.addEventListener("load", sendHeight);
@@ -54,45 +63,60 @@ const Coupang = ({ category }) => {
         window.open(url, "_blank");
     }
 
-    const testClick = () => {
-        console.log(document.body.scrollWidth);
-    }
-
     return (
-        // <div style={{width: "40%"}}>
         <AdWrapper>
-            {items.map((item, idx) => (
-                !isMobile ? 
-                    <CoupangItemWrapper key={idx}>
-                        <CoupangImageWrapper> 
-                            <CoupangImage src={item.productImage} />
-                            <CoupangShippingWrapper>
-                                {item.isFreeShipping ? <CoupangFreeShipping> 무료<br></br>배송 </CoupangFreeShipping> : <></>}
-                                {item.isRocket ? <CoupangRocketShipping> 로켓<br></br>배송 </CoupangRocketShipping> : <></>}
-                            </CoupangShippingWrapper>
-                        </CoupangImageWrapper>
-                        <CoupangDescription>
-                            <CoupangItemName> {item.productName} </CoupangItemName>
-                            <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignContent: "center"}}>
-                                <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName>  ₩{item.productPrice.toLocaleString()} </CoupangItemName> </div>
-                                {/* <CoupangSeeDetails2 onClick={() => coupangClickEvent(item.productUrl)}> 자세히 → </CoupangSeeDetails2> */}
-                            </div>
-                            {/* <CoupangItemName>  ₩{item.productPrice.toLocaleString()} </CoupangItemName> */}
-                            <CoupangSeeDetails onClick={() => coupangClickEvent(item.productUrl)}> 지금 보러가기 </CoupangSeeDetails>
-                        </CoupangDescription>
-                    </CoupangItemWrapper>
-                :
-                    // show item lists with slides
-                    <CoupangItemWrapperMobile key={idx}>
-                        모바일 슬라이드 형식; 아이템은 하나씩 자동 슬라이드 설정
-                    </CoupangItemWrapperMobile>
-            ))}
-
-            {/* <div>
-                Coupang...
-            </div> */}
+            {!isMobile ? 
+            
+            items.map((item, idx) => (
+                <CoupangItemWrapper key={idx}>
+                    <CoupangImageWrapper> 
+                        <CoupangImage src={item.productImage} />
+                        <CoupangShippingWrapper2>
+                            {item.isFreeShipping ? <CoupangFreeShipping> 무료배송 </CoupangFreeShipping> : <></>}
+                            {item.isRocket ? <CoupangRocketShipping2> 로켓배송 </CoupangRocketShipping2> : <></>}
+                        </CoupangShippingWrapper2>
+                    </CoupangImageWrapper>
+                    <CoupangDescription>
+                        <CoupangItemName> {item.productName} </CoupangItemName>
+                        <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignContent: "center"}}>
+                            <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName>  ₩{item.productPrice.toLocaleString()} </CoupangItemName> </div>
+                            {/* <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName>  ₩1,930,300 </CoupangItemName> </div> */}
+                            <CoupangSeeDetails2 onClick={() => coupangClickEvent(item.productUrl)}> 자세히 → </CoupangSeeDetails2>
+                        </div>
+                    </CoupangDescription>
+                </CoupangItemWrapper>
+            ))
+            :
+            // show item lists with slides
+            <Slider {...settings} ref={slickRef}>
+                {items.map((item, idx) => {
+                    return (
+                        <CoupangItemWrapperMobile key={idx} onClick={() => coupangClickEvent(item.productUrl)}>
+                            <CoupangImageMobileWrapper>
+                                <CoupangImage src={item.productImage} />
+                                <CoupangShippingWrapper2>
+                                    {item.isFreeShipping ? <CoupangFreeShipping> 무료배송 </CoupangFreeShipping> : <></>}
+                                    {item.isRocket ? <CoupangRocketShipping2> 로켓배송 </CoupangRocketShipping2> : <></>}
+                                </CoupangShippingWrapper2>
+                            </CoupangImageMobileWrapper>
+                            <CoupangDescription>
+                                {/* <CoupangShippingMobileWrapper>
+                                    {item.isFreeShipping ? <CoupangFreeShipping style={{fontSize: "1rem"}}> 무료배송 </CoupangFreeShipping> : <></>}
+                                    {item.isRocket ? <CoupangRocketShipping2 style={{fontSize: "0.9rem"}}> 로켓배송 </CoupangRocketShipping2> : <></>}
+                                </CoupangShippingMobileWrapper> */}
+                                <CoupangItemName class="ladder-mobile-text"> {item.productName} </CoupangItemName>
+                                <div style={{margin: "5px 0", width: "100%", display: "flex", justifyContent: "space-between", alignContent: "center"}}>
+                                    {/* <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName class="ladder-mobile-text">  ₩{item.productPrice.toLocaleString()} </CoupangItemName> </div> */}
+                                    <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName>  ₩993,000 </CoupangItemName> </div>
+                                    <CoupangSeeDetails2 style={{fontSize: "0.7rem"}} onClick={() => coupangClickEvent(item.productUrl)}> 자세히 → </CoupangSeeDetails2>
+                                </div>
+                            </CoupangDescription>
+                        </CoupangItemWrapperMobile>
+                    )
+                })}
+            </Slider>
+            }
         </AdWrapper>
-        // </div>
     );
 };
 
@@ -107,14 +131,37 @@ const AdWrapper = styled.div`
     padding: 10px;
 
     font-weight: bold;
+    
+    overflow: hidden;
+
+    .slick-slider {
+        width: 200px;
+        overflow: hidden;
+
+        .slick-slide {
+            margin: 10px;
+        }
+
+        .slick-list {
+            width: 100%;
+
+            .slick-track {
+                width: 100%;
+
+                display: flex;
+                // justify-content: center;
+                // align-items: center;
+            }
+        }
+    }
 `;
 
 const CoupangItemWrapper = styled.div`
-    width: 200px;
+    width: 180px;
 
     display: flex;
     flex-direction: column;
-    margin: 0 20px;
+    margin: 0 1vw;
 
     border-radius: 10px;
     filter: drop-shadow(0 0 0.25em lightgray);
@@ -160,7 +207,7 @@ const CoupangDescription = styled.div`
 `;
 
 const CoupangItemName = styled.span`
-    margin: 0.2rem 0;
+    margin: 0.15rem 0;
 
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -174,14 +221,9 @@ const CoupangItemName = styled.span`
 `;
 
 const CoupangShippingWrapper = styled.div`
-    position: absolute;
-    top: 0;
-    // bottom: 0;
-    // right: 0;
-
     display: flex;
 
-    margin: 0.3rem;
+    // margin: 0.3rem 0;
 `;
 
 const CoupangFreeShipping = styled.div`
@@ -221,7 +263,7 @@ const CoupangSeeDetails = styled.div`
     align-items: center;
     justify-content: center;
 
-    font-size: 0.9rem;
+    font-size: 0.8rem;
 
     margin-top: 0.3rem;
 
@@ -235,14 +277,37 @@ const CoupangSeeDetails = styled.div`
     }
 `;
 
+const CoupangShippingWrapper2 = styled.div`
+    position: absolute;
+    // top: 0;
+    bottom: 0;
+    // right: 0;
+    
+    display: flex;
+
+    margin: 0.3rem;
+`;
+
+const CoupangRocketShipping2 = styled.div`
+    border-radius: 5px;
+    padding: 0.1rem 0.3rem;
+
+    font-size: 0.8rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #EAF3FE;
+    color: #3A7AF4;
+`;
+
 const CoupangSeeDetails2 = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
 
-    font-size: 0.9rem;
-
-    // margin-top: 0.3rem;
+    font-size: 0.8rem;
 
     border-radius: 10px;
     padding: 0.35rem;
@@ -255,5 +320,41 @@ const CoupangSeeDetails2 = styled.div`
 `;
 
 const CoupangItemWrapperMobile = styled.div`
+    overflow: hidden;
 
+    border-radius: 10px;
+    filter: drop-shadow(0 0 0.25em lightgray);
+    background: white;
+`;
+
+const CoupangShippingMobileWrapper = styled.div`   
+    display: flex;
+
+    margin: 0.3rem 0;
+`;
+
+const CoupangImageMobileWrapper = styled.div`
+    position: relative;
+
+    dispaly: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+
+    overflow: hidden;
+`;
+
+const CoupangItemNameMobile = styled.span`
+    margin: 0.15rem 0;
+
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+
+    white-space: no-wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    font-size: 0.9rem;
 `;
