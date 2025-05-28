@@ -11,7 +11,9 @@ const getRecomendedItems = async () => {
             }
         });
         const data = await res.json();
-        return data;
+
+        const items = data.data.slice(0, 2);
+        return items;
     } catch (err) {
         console.log(err);
     }
@@ -121,7 +123,7 @@ exports.handler = async (event, context) => {
         }
     } else if (type === 1) {
         // send items that is similar with the contents(category)
-        
+
     } else {
         // send recomended items within profit categories as contents
         const recomendedItems = await getRecomendedItems();
