@@ -101,7 +101,7 @@ exports.handler = async (event, context) => {
         console.log("LOADED ITEMS:", recomendedItems);
 
         const itemArray = [];
-        for (const item of recomendedItems.data) {
+        for (const item of recomendedItems) {
             itemArray.push({
                 productId: item.productId,
                 productName: item.productName,
