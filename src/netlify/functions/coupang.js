@@ -12,7 +12,8 @@ const getRecomendedItems = async () => {
         });
         const data = await res.json();
 
-        const items = data.data.slice(0, 2);
+        const items = data.data.slice(0, 3);
+        console.log(items.length);
         return items;
     } catch (err) {
         console.log(err);
