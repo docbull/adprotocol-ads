@@ -18,6 +18,26 @@ import embedding17 from "../../ads/embeddings/1026.json";
 import embedding18 from "../../ads/embeddings/1029.json";
 import embedding19 from "../../ads/embeddings/1030.json";
 
+async function getEmbedding(content) {
+    try {
+        const response = await fetch(process.env.REACT_APP_EMBEDDINGS, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                    "Authorization": process.env.REACT_APP_AUTH,
+            },
+            body: JSON.stringify({
+                "model": process.env.REAcT_APP_MODEL,
+                "input": content,
+            })
+        });
+        const data = await response.json();
+        return data.data[0].embedding;
+    } catch (err) {
+        console.log("ERROR WHILE GETTING CONTENT EMBEDDING >>", err);
+    }
+}
+
 function dot(a, b) {
     if (a.length !== b.length) {
         throw new Error('The vectors must have the same length');
@@ -52,53 +72,91 @@ function cosineSimilarity(embedding1, embedding2) {
     return similarity;
 }
 
-// getRecomendedItems 
-function getRecomendedItems(embedding) {
-    // 1. 관련 쿠팡 상품 정보 받아옴
-    // 2. 해당 상품의 키워드와 content embedding 비교
-    // 3. 연관도가 높은 상품 내림차순 정렬
-    // 4. 
+// function getRecomendedItems(embedding) {
+//     // 
+// }
+
+const getRecomendedItems = async () => {
+    try {
+        const url = `/v2/providers/affiliate_open_api/apis/openapi/v1/products/reco`;
+        const authorization = await generateHmac("GET", url, process.env.REACT_APP_KEY, process.env.REACT_APP_AU);
+
+        const res = await fetch(`https://api-gateway.coupang.com` + url, {
+            method: "GET",
+            headers: {
+                'Authorization': authorization,
+                'Content-Type': 'application/json',
+            }
+        });
+        const data = await res.json();
+        return data;
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 
 exports.handler = async (event, context) => {
-    const contentEmbedding = JSON.parse(event.body).keywords;
+    const receivedData = JSON.parse(event.body);
+    const content = receivedData.content;
 
-    const ads = [
-        { embedding: embedding1, name: "여성패션", number: 1001, url: "https://cool-pony-c67e5b.netlify.app/#/1001" },
-        { embedding: embedding2, name: "남성패션", number: 1002, url: "https://cool-pony-c67e5b.netlify.app/#/1002" },
-        { embedding: embedding3, name: "뷰티", number: 1010, url: "https://cool-pony-c67e5b.netlify.app/#/1010" },
-        { embedding: embedding4, name: "출산/유아동", number: 1011, url: "https://cool-pony-c67e5b.netlify.app/#/1011" },
-        { embedding: embedding5, name: "식품", number: 1012, url: "https://cool-pony-c67e5b.netlify.app/#/1012" },
-        { embedding: embedding6, name: "주방용품", number: 1013, url: "https://cool-pony-c67e5b.netlify.app/#/1013" },
-        { embedding: embedding7, name: "생활용품", number: 1014, url: "https://cool-pony-c67e5b.netlify.app/#/1014" },
-        { embedding: embedding8, name: "홈인테리어", number: 1015, url: "https://cool-pony-c67e5b.netlify.app/#/1015" },
-        { embedding: embedding9, name: "가전디지털", number: 1016, url: "https://cool-pony-c67e5b.netlify.app/#/1016" },
-        { embedding: embedding10, name: "스포츠/레저", number: 1017, url: "https://cool-pony-c67e5b.netlify.app/#/1017" },
-        { embedding: embedding11, name: "자동차용품", number: 1018, url: "https://cool-pony-c67e5b.netlify.app/#/1018" },
-        { embedding: embedding12, name: "도서/음반/DVD", number: 1019, url: "https://cool-pony-c67e5b.netlify.app/#/1019" },
-        { embedding: embedding13, name: "완구/취미", number: 1020, url: "https://cool-pony-c67e5b.netlify.app/#/1020" },
-        { embedding: embedding14, name: "문구/오피스", number: 1021, url: "https://cool-pony-c67e5b.netlify.app/#/1021" },
-        { embedding: embedding15, name: "헬스/건강식품", number: 1024, url: "https://cool-pony-c67e5b.netlify.app/#/1024" },
-        { embedding: embedding16, name: "국내여행", number: 1025, url: "https://cool-pony-c67e5b.netlify.app/#/1025" },
-        { embedding: embedding17, name: "해외여행", number: 1026, url: "https://cool-pony-c67e5b.netlify.app/#/1026" },
-        { embedding: embedding18, name: "반려동물용품", number: 1029, url: "https://cool-pony-c67e5b.netlify.app/#/1029" },
-        { embedding: embedding19, name: "유아동패션", number: 1030, url: "https://cool-pony-c67e5b.netlify.app/#/1030" },
-    ];
+    // const contentEmbedding = await getEmbedding(content);
 
-    let highestAd = 0;
-    let adIndex = 0;
-    ads.forEach((ad, idx) => {
-        const similarity = cosineSimilarity(contentEmbedding, ad.embedding);
-        console.log(`${ads[idx].name} >> similarity: ${similarity}`);
-        if (similarity >= highestAd) {
-            highestAd = similarity;
-            adIndex = idx;
-        }
-    });
+    // const recomendedItems = await getRecomendedItems();
+    // console.log("LOADED ITEMS:", recomendedItems);
 
     return {
         statusCode: 200,
-        body: JSON.stringify({ adUrl: ads[adIndex].url }),
+        body: JSON.stringify({ adUrl: "https://cool-pony-c67e5b.netlify.app/#/coupang" }),
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // const ads = [
+    //     { embedding: embedding1, name: "여성패션", number: 1001, url: "https://cool-pony-c67e5b.netlify.app/#/1001" },
+    //     { embedding: embedding2, name: "남성패션", number: 1002, url: "https://cool-pony-c67e5b.netlify.app/#/1002" },
+    //     { embedding: embedding3, name: "뷰티", number: 1010, url: "https://cool-pony-c67e5b.netlify.app/#/1010" },
+    //     { embedding: embedding4, name: "출산/유아동", number: 1011, url: "https://cool-pony-c67e5b.netlify.app/#/1011" },
+    //     { embedding: embedding5, name: "식품", number: 1012, url: "https://cool-pony-c67e5b.netlify.app/#/1012" },
+    //     { embedding: embedding6, name: "주방용품", number: 1013, url: "https://cool-pony-c67e5b.netlify.app/#/1013" },
+    //     { embedding: embedding7, name: "생활용품", number: 1014, url: "https://cool-pony-c67e5b.netlify.app/#/1014" },
+    //     { embedding: embedding8, name: "홈인테리어", number: 1015, url: "https://cool-pony-c67e5b.netlify.app/#/1015" },
+    //     { embedding: embedding9, name: "가전디지털", number: 1016, url: "https://cool-pony-c67e5b.netlify.app/#/1016" },
+    //     { embedding: embedding10, name: "스포츠/레저", number: 1017, url: "https://cool-pony-c67e5b.netlify.app/#/1017" },
+    //     { embedding: embedding11, name: "자동차용품", number: 1018, url: "https://cool-pony-c67e5b.netlify.app/#/1018" },
+    //     { embedding: embedding12, name: "도서/음반/DVD", number: 1019, url: "https://cool-pony-c67e5b.netlify.app/#/1019" },
+    //     { embedding: embedding13, name: "완구/취미", number: 1020, url: "https://cool-pony-c67e5b.netlify.app/#/1020" },
+    //     { embedding: embedding14, name: "문구/오피스", number: 1021, url: "https://cool-pony-c67e5b.netlify.app/#/1021" },
+    //     { embedding: embedding15, name: "헬스/건강식품", number: 1024, url: "https://cool-pony-c67e5b.netlify.app/#/1024" },
+    //     { embedding: embedding16, name: "국내여행", number: 1025, url: "https://cool-pony-c67e5b.netlify.app/#/1025" },
+    //     { embedding: embedding17, name: "해외여행", number: 1026, url: "https://cool-pony-c67e5b.netlify.app/#/1026" },
+    //     { embedding: embedding18, name: "반려동물용품", number: 1029, url: "https://cool-pony-c67e5b.netlify.app/#/1029" },
+    //     { embedding: embedding19, name: "유아동패션", number: 1030, url: "https://cool-pony-c67e5b.netlify.app/#/1030" },
+    // ];
+
+    // let highestAd = 0;
+    // let adIndex = 0;
+    // ads.forEach((ad, idx) => {
+    //     const similarity = cosineSimilarity(contentEmbedding, ad.embedding);
+    //     console.log(`${ads[idx].name} >> similarity: ${similarity}`);
+    //     if (similarity >= highestAd) {
+    //         highestAd = similarity;
+    //         adIndex = idx;
+    //     }
+    // });
+
+    // return {
+    //     statusCode: 200,
+    //     body: JSON.stringify({ adUrl: ads[adIndex].url }),
+    // }
 }

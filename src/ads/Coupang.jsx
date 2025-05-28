@@ -23,25 +23,51 @@ const Coupang = ({ category }) => {
     }
 
     useEffect(() => {
-        var start = Date.now();
-        fetch(`https://cool-pony-c67e5b.netlify.app/.netlify/functions/coupang`, {
-            method: "POST",
-            body: JSON.stringify({ category: category }),
-        })
-        .then(res => res.json())
-        .then(data => {
-            const iframeWidth = Number(document.body.scrollWidth);
-            if (iframeWidth <= 400) {
-                setIsMobile(true);
-                setItems(data.items);
-            } else if (iframeWidth <= 600) {
-                // show only 2 items...
-                setItems(data.items);
-            } else {
-                setItems(data.items);
-            }
-        })
-        .catch(console.error);
+        if (category) {
+            fetch(`https://cool-pony-c67e5b.netlify.app/.netlify/functions/coupang`, {
+                method: "POST",
+                body: JSON.stringify({
+                    type: 1,
+                    category: category
+                }),
+            })
+            .then(res => res.json())
+            .then(data => {
+                const iframeWidth = Number(document.body.scrollWidth);
+                if (iframeWidth <= 400) {
+                    setIsMobile(true);
+                    setItems(data.items);
+                } else if (iframeWidth <= 600) {
+                    // show only 2 items...
+                    setItems(data.items);
+                } else {
+                    setItems(data.items);
+                }
+            })
+            .catch(console.error);
+        } else {
+            fetch(`https://cool-pony-c67e5b.netlify.app/.netlify/functions/coupang`, {
+                method: "POST",
+                body: JSON.stringify({
+                    type: 0,
+                    
+                }),
+            })
+            .then(res => res.json())
+            .then(data => {
+                const iframeWidth = Number(document.body.scrollWidth);
+                if (iframeWidth <= 400) {
+                    setIsMobile(true);
+                    setItems(data.items);
+                } else if (iframeWidth <= 600) {
+                    // show only 2 items...
+                    setItems(data.items);
+                } else {
+                    setItems(data.items);
+                }
+            })
+            .catch(console.error);
+        }
 
         const sendHeight = () => {
             const height = document.body.scrollHeight;
@@ -62,7 +88,7 @@ const Coupang = ({ category }) => {
 
         window.open(url, "_blank");
     }
-    
+
     return (
         <AdWrapper>
             {!isMobile ? 
@@ -100,10 +126,6 @@ const Coupang = ({ category }) => {
                                 </CoupangShippingWrapper2>
                             </CoupangImageMobileWrapper>
                             <CoupangDescription>
-                                {/* <CoupangShippingMobileWrapper>
-                                    {item.isFreeShipping ? <CoupangFreeShipping style={{fontSize: "1rem"}}> 무료배송 </CoupangFreeShipping> : <></>}
-                                    {item.isRocket ? <CoupangRocketShipping2 style={{fontSize: "0.9rem"}}> 로켓배송 </CoupangRocketShipping2> : <></>}
-                                </CoupangShippingMobileWrapper> */}
                                 <CoupangItemName class="ladder-mobile-text"> {item.productName} </CoupangItemName>
                                 <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignContent: "center"}}>
                                     <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName class="ladder-mobile-text">  ₩{item.productPrice.toLocaleString()} </CoupangItemName> </div>

@@ -22,7 +22,7 @@ function App() {
 
         {/* 쿠팡 */}
         <Route
-          path="/test"
+          path="/coupang"
           element={<Coupang />}
         />
         <Route
