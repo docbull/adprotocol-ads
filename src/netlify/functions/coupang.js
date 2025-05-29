@@ -53,7 +53,7 @@ const sortCoupangItems = (content, items) => {
         const union = new Set([...contentWords, ...itemName]);
 
         const similarity = intersection.size / union.size;
-        console.log(`${itemName} : ${similarity}`);
+        console.log(`${item.productName} : ${similarity}`);
         arrange.push({
             item,
             similarity,
@@ -62,7 +62,7 @@ const sortCoupangItems = (content, items) => {
         arrange.sort((a, b) => b.similarity - a.similarity);
     }
 
-    return arrange.item.slice(0, 3);
+    return arrange.slice(0, 3);
 }
 
 const makeUrlForUs = async (urls) => {
@@ -149,13 +149,13 @@ exports.handler = async (event, context) => {
     const itemArray = [];
     for (const item of bestItems) {
         itemArray.push({
-            productId: item.productId,
-            productName: item.productName,
-            productPrice: item.productPrice,
-            productImage: item.productImage,
-            isRocket: item.isRocket,
-            isFreeShipping: item.isFreeShipping,
-            productUrl: item.productUrl,
+            productId: item.item.productId,
+            productName: item.item.productName,
+            productPrice: item.item.productPrice,
+            productImage: item.item.productImage,
+            isRocket: item.item.isRocket,
+            isFreeShipping: item.item.isFreeShipping,
+            productUrl: item.item.productUrl,
         });
     }
     console.log("ITEMS:", itemArray);
