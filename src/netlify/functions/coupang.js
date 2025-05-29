@@ -166,6 +166,6 @@ exports.handler = async (event, context) => {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Headers": "Content-Type",
         },
-        body: JSON.stringify({ items: itemArray.slice(0, 3) }),
+        body: JSON.stringify({ items: itemArray }),
     }
 }
