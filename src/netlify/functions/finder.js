@@ -27,7 +27,7 @@ async function getEmbedding(content) {
                     "Authorization": process.env.REACT_APP_AUTH,
             },
             body: JSON.stringify({
-                "model": process.env.REAcT_APP_MODEL,
+                "model": process.env.REACT_APP_MODEL,
                 "input": content,
             })
         });
