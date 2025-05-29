@@ -22,7 +22,7 @@ const Coupang = ({ category }) => {
     }
 
     useEffect(() => {
-        
+        window.parent.parent.postMessage({ type: "ladder-content" }, "*");
 
         if (category) {
             fetch(`https://cool-pony-c67e5b.netlify.app/.netlify/functions/coupang`, {

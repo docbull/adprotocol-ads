@@ -1,3 +1,7 @@
+import { initializeApp } from "firebase/app";
+import { getFirestore, addDoc, collection } from "firebase/firestore";
+import pako from 'pako';
+
 import embedding1 from "../../ads/embeddings/1001.json";
 import embedding2 from "../../ads/embeddings/1002.json";
 import embedding3 from "../../ads/embeddings/1010.json";
@@ -91,12 +95,39 @@ const getRecomendedItems = async () => {
     }
 }
 
+async function storeContent(content) {
+    const app = initializeApp({
+        apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
+        authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+        projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
+        storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCKET,
+        messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGINGSENDERID,
+        appId: process.env.REACT_APP_FIREBASE_APPID,
+        measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENTID
+    });
+
+    const firestore = getFirestore(app);
+
+    addDoc(collection(firestore, "ladder"), {
+        content: content,
+    }).then((res) => {
+        return res;
+    });
+}
 
 exports.handler = async (event, context) => {
     const receivedData = JSON.parse(event.body);
     const content = receivedData.content;
-    
-    const contentEmbedding = await getEmbedding(content);
+    const decompressedContent = pako.inflate(content, { to: "string" });
+
+    const contentEmbedding = await getEmbedding(decompressedContent);
+
+    // compressed content: lowest size (Unit8Array)
+    // base64 content: 2nd (Base64)
+    // 현재로서는 크기가 가장 큰 decompressed content를 저장 ...
+    const contentId = await storeContent(decompressedContent);
+
+    console.log(contentId);
 
     const ads = [
         { embedding: embedding1, name: "여성패션", number: 1001, url: "https://cool-pony-c67e5b.netlify.app/#/1001" },
