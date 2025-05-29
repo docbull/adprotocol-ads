@@ -115,10 +115,10 @@ exports.handler = async (event, context) => {
     // send items that is similar with the contents(category)
     const itemsByCategory = await getCoupangBestItemsByCategory(category);
 
-    const bestItems = sortCoupangItems(itemsByCategory);
+    // const bestItems = sortCoupangItems(itemsByCategory);
 
     const itemArray = [];
-    for (const item of bestItems) {
+    for (const item of itemsByCategory) {
         itemArray.push({
             productId: item.productId,
             productName: item.productName,
@@ -137,6 +137,6 @@ exports.handler = async (event, context) => {
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Headers": "Content-Type",
         },
-        body: JSON.stringify({ items: itemArray }),
+        body: JSON.stringify({ items: itemArray.slice(0, 3) }),
     }
 }
