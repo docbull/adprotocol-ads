@@ -32,14 +32,33 @@ const getCoupangBestItemsByCategory = async (category) => {
             },
         });
         const data = await res.json();
-
-        console.log(data.data);
-
-        const items = data.data.slice(0, 3);
-        return items;
+        return data.data;
     } catch (err) {
         console.log(err);
     }
+}
+
+const sortCoupangItems = (content, items) => {
+    const arrange = [];
+
+    for (const item of items) {
+        const contentWords = new Set(content.split(/\s+/));
+        const itemName = new Set(item.productName.split(/\s+/));
+
+        const intersection = new Set([...contentWords].filter(word => itemName.has(word)));
+        const union = new Set([...contentWords, ...itemName]);
+
+        const similarity = intersection.size / union.size;
+        console.log(`${itemName} : ${similarity}`);
+        arrange.push({
+            item,
+            similarity,
+        });
+
+        arrange.sort((a, b) => b.similarity - a.similarity);
+    }
+
+    return arrange.item.slice(0, 3);
 }
 
 const makeUrlForUs = async (urls) => {
@@ -96,8 +115,10 @@ exports.handler = async (event, context) => {
     // send items that is similar with the contents(category)
     const itemsByCategory = await getCoupangBestItemsByCategory(category);
 
+    const bestItems = sortCoupangItems(itemsByCategory);
+
     const itemArray = [];
-    for (const item of itemsByCategory) {
+    for (const item of bestItems) {
         itemArray.push({
             productId: item.productId,
             productName: item.productName,
