@@ -112,6 +112,7 @@ async function storeContent(content) {
         addDoc(collection(firestore, "ladder"), {
             content: content,
         }).then((res) => {
+            console.log(res.id);
             resolve(res);
         });
     });
@@ -119,7 +120,6 @@ async function storeContent(content) {
 
 exports.handler = async (event, context) => {
     const receivedData = JSON.parse(event.body);
-    console.log(receivedData);
     const compressedContent = receivedData.compressed_content;
     const content = pako.inflate(compressedContent, { to: "string" });
 
