@@ -117,16 +117,15 @@ async function storeContent(content) {
 
 exports.handler = async (event, context) => {
     const receivedData = JSON.parse(event.body);
-    const content = receivedData.content;
-    const decompressedContent = pako.inflate(content, { to: "string" });
+    const compressedContent = receivedData.compressed_content;
+    const content = pako.inflate(compressedContent, { to: "string" });
 
-    const contentEmbedding = await getEmbedding(decompressedContent);
+    const contentEmbedding = await getEmbedding(content);
 
     // compressed content: lowest size (Unit8Array)
     // base64 content: 2nd (Base64)
     // 현재로서는 크기가 가장 큰 decompressed content를 저장 ...
-    const contentId = await storeContent(decompressedContent);
-
+    const contentId = await storeContent(content);
     console.log(contentId);
 
     const ads = [
