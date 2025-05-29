@@ -27,30 +27,7 @@ const Coupang = ({ category }) => {
             fetch(`https://cool-pony-c67e5b.netlify.app/.netlify/functions/coupang`, {
                 method: "POST",
                 body: JSON.stringify({
-                    type: 1,
                     category: category
-                }),
-            })
-            .then(res => res.json())
-            .then(data => {
-                const iframeWidth = Number(document.body.scrollWidth);
-                if (iframeWidth <= 400) {
-                    setIsMobile(true);
-                    setItems(data.items);
-                } else if (iframeWidth <= 600) {
-                    // show only 2 items...
-                    setItems(data.items);
-                } else {
-                    setItems(data.items);
-                }
-            })
-            .catch(console.error);
-        } else {
-            fetch(`https://cool-pony-c67e5b.netlify.app/.netlify/functions/coupang`, {
-                method: "POST",
-                body: JSON.stringify({
-                    type: 0,
-                    
                 }),
             })
             .then(res => res.json())
@@ -80,7 +57,7 @@ const Coupang = ({ category }) => {
         window.addEventListener("resize", sendHeight);
 
         new ResizeObserver(sendHeight).observe(document.body);
-    }, [category]);
+    }, []);
 
     const coupangClickEvent = (url) => {
         // 어떤 상품을 클릭했는지 기록

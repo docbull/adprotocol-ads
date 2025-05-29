@@ -22,7 +22,7 @@ const getRecomendedItems = async () => {
 
 const getCoupangBestItemsByCategory = async (category) => {
     try {
-        const url = `/v2/providers/affiliate_open_api/apis/openapi/v1/products/bestcategories/${category}?limit=3`;
+        const url = `/v2/providers/affiliate_open_api/apis/openapi/v1/products/bestcategories/${category}?limit=20`;
         const authorization = await generateHmac("GET", url, process.env.REACT_APP_KEY, process.env.REACT_APP_AU);
 
         const res = await fetch(`https://api-gateway.coupang.com` + url, {
@@ -33,7 +33,12 @@ const getCoupangBestItemsByCategory = async (category) => {
             },
         });
         const data = await res.json();
-        return data;
+
+        console.log(data.data);
+
+        const items = data.data.slice(0, 3);
+        console.log(items.length);
+        return items;
     } catch (err) {
         console.log(err);
     }
@@ -88,95 +93,31 @@ const generateHmac = async (method, url, secretKey, accessKey) => {
 
 // 콘텐츠와 가장 연관성이 높은 카테고리 상품 추천
 exports.handler = async (event, context) => {
-    // const category = JSON.parse(event.body).category;
+    const category = JSON.parse(event.body).category;
 
-    // const itemsByCategory = await getCoupangBestItemsByCategory(category);
+    // send items that is similar with the contents(category)
+    const itemsByCategory = await getCoupangBestItemsByCategory(category);
 
-
-    const receivedData = JSON.parse(event.body);
-    const type = receivedData.type;
-
-    if (type === 0) {
-        // send recomended items within profit categories as contents
-        const recomendedItems = await getRecomendedItems();
-        console.log("LOADED ITEMS:", recomendedItems);
-
-        const itemArray = [];
-        for (const item of recomendedItems) {
-            itemArray.push({
-                productId: item.productId,
-                productName: item.productName,
-                productPrice: item.productPrice,
-                productImage: item.productImage,
-                isRocket: item.isRocket,
-                isFreeShipping: item.isFreeShipping,
-                productUrl: item.productUrl,
-            });
-        }
-
-        return {
-            statusCode: 200,
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "Content-Type",
-            },
-            body: JSON.stringify({ items: itemArray }),
-        }
-    } else if (type === 1) {
-        // send items that is similar with the contents(category)
-
-    } else {
-        // send recomended items within profit categories as contents
-        const recomendedItems = await getRecomendedItems();
-        console.log("LOADED ITEMS:", recomendedItems);
-
-        const itemArray = [];
-        for (const item of recomendedItems.data) {
-            itemArray.push({
-                productId: item.productId,
-                productName: item.productName,
-                productPrice: item.productPrice,
-                productImage: item.productImage,
-                isRocket: item.isRocket,
-                isFreeShipping: item.isFreeShipping,
-                productUrl: item.productUrl,
-            });
-        }
-
-        return {
-            statusCode: 200,
-            headers: {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "Content-Type",
-            },
-            body: JSON.stringify({ items: itemArray }),
-        }
+    const itemArray = [];
+    for (const item of itemsByCategory.data) {
+        itemArray.push({
+            productId: item.productId,
+            productName: item.productName,
+            productPrice: item.productPrice,
+            productImage: item.productImage,
+            isRocket: item.isRocket,
+            isFreeShipping: item.isFreeShipping,
+            productUrl: item.productUrl,
+        });
     }
+    console.log("ITEMS:", itemArray);
 
-
-
-    // console.log('LOADED ITEMS:', itemsByCategory);
-
-    // const itemArray = [];
-    // for (const item of itemsByCategory.data) {
-    //     itemArray.push({
-    //         productId: item.productId,
-    //         productName: item.productName,
-    //         productPrice: item.productPrice,
-    //         productImage: item.productImage,
-    //         isRocket: item.isRocket,
-    //         isFreeShipping: item.isFreeShipping,
-    //         productUrl: item.productUrl,
-    //     });
-    // }
-    // console.log("ITEM ARRAY:", itemArray);
-
-    // return {
-    //     statusCode: 200,
-    //     headers: {
-    //         "Access-Control-Allow-Origin": "*",
-    //         "Access-Control-Allow-Headers": "Content-Type",
-    //     },
-    //     body: JSON.stringify({ items: itemArray }),
-    // }
+    return {
+        statusCode: 200,
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Headers": "Content-Type",
+        },
+        body: JSON.stringify({ items: itemArray }),
+    }
 }
