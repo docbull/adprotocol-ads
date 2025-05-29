@@ -95,10 +95,7 @@ const getRecomendedItems = async () => {
 exports.handler = async (event, context) => {
     const receivedData = JSON.parse(event.body);
     const content = receivedData.content;
-
-    console.log(receivedData);
-    console.log(content);
-
+    
     const contentEmbedding = await getEmbedding(content);
 
     const ads = [
