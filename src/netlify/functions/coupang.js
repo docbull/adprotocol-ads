@@ -36,7 +36,6 @@ const getCoupangBestItemsByCategory = async (category) => {
         console.log(data.data);
 
         const items = data.data.slice(0, 3);
-        console.log(items.length);
         return items;
     } catch (err) {
         console.log(err);
@@ -98,7 +97,7 @@ exports.handler = async (event, context) => {
     const itemsByCategory = await getCoupangBestItemsByCategory(category);
 
     const itemArray = [];
-    for (const item of itemsByCategory.data) {
+    for (const item of itemsByCategory) {
         itemArray.push({
             productId: item.productId,
             productName: item.productName,
