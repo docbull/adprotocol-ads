@@ -1,3 +1,7 @@
+import { initializeApp } from "firebase/app";
+import { getFirestore, collection, doc, getDoc } from "firebase/firestore";
+import pako from 'pako';
+
 const getRecomendedItems = async () => {
     try {
         const url = `/v2/providers/affiliate_open_api/apis/openapi/v1/products/reco`;
@@ -108,17 +112,42 @@ const generateHmac = async (method, url, secretKey, accessKey) => {
     return `CEA algorithm=HmacSHA256, access-key=${accessKey}, signed-date=${datetime}, signature=${signatureHex}`;
 }
 
+const getContent = async (contentId) => {
+    return new Promise(async (resolve) => {
+        const app = initializeApp({
+            apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
+            authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+            projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
+            storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCKET,
+            messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGINGSENDERID,
+            appId: process.env.REACT_APP_FIREBASE_APPID,
+            measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENTID
+        });
+    
+        const firestore = getFirestore(app);
+        const docRef = doc(firestore, "ladder", contentId);
+        const docSnap = await getDoc(docRef);
+        const content = docSnap.data().content;
+
+        resolve(content);
+    });
+}
+
 // 콘텐츠와 가장 연관성이 높은 카테고리 상품 추천
 exports.handler = async (event, context) => {
-    const category = JSON.parse(event.body).category;
+    const data = JSON.parse(event.body);
+    const category = data.category;
 
     // send items that is similar with the contents(category)
     const itemsByCategory = await getCoupangBestItemsByCategory(category);
 
-    // const bestItems = sortCoupangItems(itemsByCategory);
+    const contentId = data.content;
+    const content = await getContent(contentId);
+
+    const bestItems = sortCoupangItems(content, itemsByCategory);
 
     const itemArray = [];
-    for (const item of itemsByCategory) {
+    for (const item of bestItems) {
         itemArray.push({
             productId: item.productId,
             productName: item.productName,

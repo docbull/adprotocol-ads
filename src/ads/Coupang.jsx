@@ -2,10 +2,13 @@ import React from "react";
 import styled from "styled-components";
 import { useEffect, useState, useRef, useCallback } from "react";
 import Slider from "react-slick";
-
-
+import { useLocation } from "react-router-dom";
 
 const Coupang = ({ category }) => {
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const content = params.get("content");
+
     const [ isMobile, setIsMobile ] = useState(false);
     const [ items, setItems ] = useState([]);
 
@@ -22,13 +25,14 @@ const Coupang = ({ category }) => {
     }
 
     useEffect(() => {
-        window.parent.parent.postMessage({ type: "ladder-content" }, "*");
+        console.log(content);
 
         if (category) {
             fetch(`https://cool-pony-c67e5b.netlify.app/.netlify/functions/coupang`, {
                 method: "POST",
                 body: JSON.stringify({
-                    category: category
+                    category: category,
+                    content: content,
                 }),
             })
             .then(res => res.json())

@@ -22,10 +22,6 @@ function App() {
 
         {/* 쿠팡 */}
         <Route
-          path="/coupang"
-          element={<Coupang />}
-        />
-        <Route
           path="/1001"
           exact={true}
           element={<Coupang category={1001}/>}
