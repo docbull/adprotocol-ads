@@ -25,8 +25,6 @@ const Coupang = ({ category }) => {
     }
 
     useEffect(() => {
-        console.log(content);
-
         if (category) {
             fetch(`https://cool-pony-c67e5b.netlify.app/.netlify/functions/coupang`, {
                 method: "POST",
@@ -74,7 +72,6 @@ const Coupang = ({ category }) => {
     return (
         <AdWrapper>
             {!isMobile ? 
-            
             items.map((item, idx) => (
                 <CoupangItemWrapper key={idx}>
                     <CoupangImageWrapper> 
@@ -162,6 +159,7 @@ const AdWrapper = styled.div`
 
 const CoupangItemWrapper = styled.div`
     width: 180px;
+    height: 270px;
 
     display: flex;
     flex-direction: column;
@@ -285,7 +283,7 @@ const CoupangShippingWrapper2 = styled.div`
     position: absolute;
     // top: 0;
     bottom: 0;
-    // right: 0;
+    right: 0;
     
     display: flex;
 
