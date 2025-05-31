@@ -22,8 +22,8 @@ import pako from 'pako';
 // import embedding18 from "../../ads/embeddings/1029.json";
 // import embedding19 from "../../ads/embeddings/1030.json";
 
-import embedding1 from "../../ads/embeddings/v1/1001_1.json";
-import embedding2 from "../../ads/embeddings/v1/1002_1.json";
+import embedding1 from "../../ads/embeddings/v2/1001_2.json";
+import embedding2 from "../../ads/embeddings/v2/1002_2.json";
 import embedding3 from "../../ads/embeddings/v1/1010_1.json";
 import embedding4 from "../../ads/embeddings/v1/1011_1.json";
 import embedding5 from "../../ads/embeddings/v1/1012_1.json";
