@@ -25,18 +25,48 @@ const getRecomendedItems = async () => {
 
 const getCoupangBestItemsByCategory = async (category) => {
     try {
-        const url = `/v2/providers/affiliate_open_api/apis/openapi/v1/products/bestcategories/${category}?limit=20`;
-        const authorization = await generateHmac("GET", url, process.env.REACT_APP_KEY, process.env.REACT_APP_AU);
+        if (category === 1025) {
+            const keyword = encodeURIComponent("국내여행 필수품");
+            const url = `/v2/providers/affiliate_open_api/apis/openapi/products/search?keyword=${keyword}&limit=10`;
+            const authorization = await generateHmac("GET", url, process.env.REACT_APP_KEY, process.env.REACT_APP_AU);
 
-        const res = await fetch(`https://api-gateway.coupang.com` + url, {
-            method: "GET",
-            headers: {
-                'Authorization': authorization,
-                'Content-Type': 'application/json',
-            },
-        });
-        const data = await res.json();
-        return data.data;
+            const res = await fetch("https://api-gateway.coupang.com" + url, {
+                method: "GET",
+                headers: {
+                    'Authorization': authorization,
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await res.json();
+            return data.data.productData;
+        } else if (category === 1026) {
+            const keyword = encodeURIComponent("여행 필수품");
+            const url = `/v2/providers/affiliate_open_api/apis/openapi/products/search?keyword=${keyword}&limit=10`;
+            const authorization = await generateHmac("GET", url, process.env.REACT_APP_KEY, process.env.REACT_APP_AU);
+
+            const res = await fetch("https://api-gateway.coupang.com" + url, {
+                method: "GET",
+                headers: {
+                    'Authorization': authorization,
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await res.json();
+            return data.data.productData;
+        } else {
+            const url = `/v2/providers/affiliate_open_api/apis/openapi/v1/products/bestcategories/${category}?limit=20`;
+            const authorization = await generateHmac("GET", url, process.env.REACT_APP_KEY, process.env.REACT_APP_AU);
+    
+            const res = await fetch(`https://api-gateway.coupang.com` + url, {
+                method: "GET",
+                headers: {
+                    'Authorization': authorization,
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await res.json();
+            return data.data;
+        }
     } catch (err) {
         console.log(err);
     }

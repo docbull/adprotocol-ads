@@ -163,6 +163,8 @@ exports.handler = async (event, context) => {
         }
     });
 
+    console.log("Recomended AD : ", ads[adIndex].name);
+
     return {
         statusCode: 200,
         body: JSON.stringify({ adUrl: ads[adIndex].url }),
