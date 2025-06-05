@@ -28,6 +28,8 @@ const Coupang = ({ category }) => {
     }
 
     useEffect(() => {
+        console.log(count);
+
         if (category) {
             fetch(`https://cool-pony-c67e5b.netlify.app/.netlify/functions/coupang`, {
                 method: "POST",
