@@ -72,7 +72,7 @@ const getCoupangBestItemsByCategory = async (category) => {
     }
 }
 
-const sortCoupangItems = (content, items) => {
+const sortCoupangItems = (content, items, count) => {
     const arrange = [];
 
     for (const item of items) {
@@ -92,7 +92,7 @@ const sortCoupangItems = (content, items) => {
         arrange.sort((a, b) => b.similarity - a.similarity);
     }
 
-    return arrange.slice(0, 3);
+    return arrange.slice(count * 4, (count * 4) + 3);
 }
 
 const makeUrlForUs = async (urls) => {
@@ -167,6 +167,7 @@ const getContent = async (contentId) => {
 exports.handler = async (event, context) => {
     const data = JSON.parse(event.body);
     const category = data.category;
+    const count = data.count;
 
     // send items that is similar with the contents(category)
     const itemsByCategory = await getCoupangBestItemsByCategory(category);
@@ -174,7 +175,7 @@ exports.handler = async (event, context) => {
     const contentId = data.content;
     const content = await getContent(contentId);
 
-    const bestItems = sortCoupangItems(content, itemsByCategory);
+    const bestItems = sortCoupangItems(content, itemsByCategory, count);
 
     const itemArray = [];
     for (const item of bestItems) {

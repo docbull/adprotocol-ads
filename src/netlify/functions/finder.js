@@ -122,6 +122,7 @@ exports.handler = async (event, context) => {
     const receivedData = JSON.parse(event.body);
     const compressedContent = receivedData.compressed_content;
     const content = pako.inflate(compressedContent, { to: "string" });
+    const adCount = receivedData.count;
 
     const contentEmbedding = await getEmbedding(content);
 
@@ -131,25 +132,25 @@ exports.handler = async (event, context) => {
     const contentId = await storeContent(content);
 
     const ads = [
-        { embedding: embedding1, name: "여성패션", number: 1001, url: `https://cool-pony-c67e5b.netlify.app/#/1001?content=${contentId}` },
-        { embedding: embedding2, name: "남성패션", number: 1002, url: `https://cool-pony-c67e5b.netlify.app/#/1002?content=${contentId}` },
-        { embedding: embedding3, name: "뷰티", number: 1010, url: `https://cool-pony-c67e5b.netlify.app/#/1010?content=${contentId}` },
-        { embedding: embedding4, name: "출산/유아동", number: 1011, url: `https://cool-pony-c67e5b.netlify.app/#/1011?content=${contentId}` },
-        { embedding: embedding5, name: "식품", number: 1012, url: `https://cool-pony-c67e5b.netlify.app/#/1012?content=${contentId}` },
-        { embedding: embedding6, name: "주방용품", number: 1013, url: `https://cool-pony-c67e5b.netlify.app/#/1013?content=${contentId}` },
-        { embedding: embedding7, name: "생활용품", number: 1014, url: `https://cool-pony-c67e5b.netlify.app/#/1014?content=${contentId}` },
-        { embedding: embedding8, name: "홈인테리어", number: 1015, url: `https://cool-pony-c67e5b.netlify.app/#/1015?content=${contentId}` },
-        { embedding: embedding9, name: "가전디지털", number: 1016, url: `https://cool-pony-c67e5b.netlify.app/#/1016?content=${contentId}` },
-        { embedding: embedding10, name: "스포츠/레저", number: 1017, url: `https://cool-pony-c67e5b.netlify.app/#/1017?content=${contentId}` },
-        { embedding: embedding11, name: "자동차용품", number: 1018, url: `https://cool-pony-c67e5b.netlify.app/#/1018?content=${contentId}` },
-        { embedding: embedding12, name: "도서/음반/DVD", number: 1019, url: `https://cool-pony-c67e5b.netlify.app/#/1019?content=${contentId}` },
-        { embedding: embedding13, name: "완구/취미", number: 1020, url: `https://cool-pony-c67e5b.netlify.app/#/1020?content=${contentId}` },
-        { embedding: embedding14, name: "문구/오피스", number: 1021, url: `https://cool-pony-c67e5b.netlify.app/#/1021?content=${contentId}` },
-        { embedding: embedding15, name: "헬스/건강식품", number: 1024, url: `https://cool-pony-c67e5b.netlify.app/#/1024?content=${contentId}` },
-        { embedding: embedding16, name: "국내여행", number: 1025, url: `https://cool-pony-c67e5b.netlify.app/#/1025?content=${contentId}` },
-        { embedding: embedding17, name: "해외여행", number: 1026, url: `https://cool-pony-c67e5b.netlify.app/#/1026?content=${contentId}` },
-        { embedding: embedding18, name: "반려동물용품", number: 1029, url: `https://cool-pony-c67e5b.netlify.app/#/1029?content=${contentId}` },
-        { embedding: embedding19, name: "유아동패션", number: 1030, url: `https://cool-pony-c67e5b.netlify.app/#/1030?content=${contentId}` },
+        { embedding: embedding1, name: "여성패션", number: 1001, url: `https://cool-pony-c67e5b.netlify.app/#/1001?content=${contentId}&count=${adCount}` },
+        { embedding: embedding2, name: "남성패션", number: 1002, url: `https://cool-pony-c67e5b.netlify.app/#/1002?content=${contentId}&count=${adCount}` },
+        { embedding: embedding3, name: "뷰티", number: 1010, url: `https://cool-pony-c67e5b.netlify.app/#/1010?content=${contentId}&count=${adCount}` },
+        { embedding: embedding4, name: "출산/유아동", number: 1011, url: `https://cool-pony-c67e5b.netlify.app/#/1011?content=${contentId}&count=${adCount}` },
+        { embedding: embedding5, name: "식품", number: 1012, url: `https://cool-pony-c67e5b.netlify.app/#/1012?content=${contentId}&count=${adCount}` },
+        { embedding: embedding6, name: "주방용품", number: 1013, url: `https://cool-pony-c67e5b.netlify.app/#/1013?content=${contentId}&count=${adCount}` },
+        { embedding: embedding7, name: "생활용품", number: 1014, url: `https://cool-pony-c67e5b.netlify.app/#/1014?content=${contentId}&count=${adCount}` },
+        { embedding: embedding8, name: "홈인테리어", number: 1015, url: `https://cool-pony-c67e5b.netlify.app/#/1015?content=${contentId}&count=${adCount}` },
+        { embedding: embedding9, name: "가전디지털", number: 1016, url: `https://cool-pony-c67e5b.netlify.app/#/1016?content=${contentId}&count=${adCount}` },
+        { embedding: embedding10, name: "스포츠/레저", number: 1017, url: `https://cool-pony-c67e5b.netlify.app/#/1017?content=${contentId}&count=${adCount}` },
+        { embedding: embedding11, name: "자동차용품", number: 1018, url: `https://cool-pony-c67e5b.netlify.app/#/1018?content=${contentId}&count=${adCount}` },
+        { embedding: embedding12, name: "도서/음반/DVD", number: 1019, url: `https://cool-pony-c67e5b.netlify.app/#/1019?content=${contentId}&count=${adCount}` },
+        { embedding: embedding13, name: "완구/취미", number: 1020, url: `https://cool-pony-c67e5b.netlify.app/#/1020?content=${contentId}&count=${adCount}` },
+        { embedding: embedding14, name: "문구/오피스", number: 1021, url: `https://cool-pony-c67e5b.netlify.app/#/1021?content=${contentId}&count=${adCount}` },
+        { embedding: embedding15, name: "헬스/건강식품", number: 1024, url: `https://cool-pony-c67e5b.netlify.app/#/1024?content=${contentId}&count=${adCount}` },
+        { embedding: embedding16, name: "국내여행", number: 1025, url: `https://cool-pony-c67e5b.netlify.app/#/1025?content=${contentId}&count=${adCount}` },
+        { embedding: embedding17, name: "해외여행", number: 1026, url: `https://cool-pony-c67e5b.netlify.app/#/1026?content=${contentId}&count=${adCount}` },
+        { embedding: embedding18, name: "반려동물용품", number: 1029, url: `https://cool-pony-c67e5b.netlify.app/#/1029?content=${contentId}&count=${adCount}` },
+        { embedding: embedding19, name: "유아동패션", number: 1030, url: `https://cool-pony-c67e5b.netlify.app/#/1030?content=${contentId}&count=${adCount}` },
     ];
 
     let highestAd = 0;

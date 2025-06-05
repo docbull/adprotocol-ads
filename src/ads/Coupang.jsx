@@ -8,6 +8,7 @@ const Coupang = ({ category }) => {
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const content = params.get("content");
+    const count = params.get("count");
 
     const [ isMobile, setIsMobile ] = useState(false);
     const [ items, setItems ] = useState([]);
@@ -33,6 +34,7 @@ const Coupang = ({ category }) => {
                 body: JSON.stringify({
                     category: category,
                     content: content,
+                    count: count,
                 }),
             })
             .then(res => res.json())
