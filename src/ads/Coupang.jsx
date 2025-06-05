@@ -28,6 +28,7 @@ const Coupang = ({ category }) => {
     }
 
     useEffect(() => {
+        console.log(category);
         console.log(count);
 
         if (category) {

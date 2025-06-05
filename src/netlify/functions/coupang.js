@@ -169,6 +169,8 @@ exports.handler = async (event, context) => {
     const category = data.category;
     const count = data.count;
 
+    console.log(category, count);
+
     // send items that is similar with the contents(category)
     const itemsByCategory = await getCoupangBestItemsByCategory(category);
 
