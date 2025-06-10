@@ -1,6 +1,5 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, doc, getDoc } from "firebase/firestore";
-import pako from 'pako';
 
 const getRecomendedItems = async () => {
     try {
@@ -54,7 +53,7 @@ const getCoupangBestItemsByCategory = async (category) => {
             const data = await res.json();
             return data.data.productData;
         } else {
-            const url = `/v2/providers/affiliate_open_api/apis/openapi/v1/products/bestcategories/${category}?limit=20`;
+            const url = `/v2/providers/affiliate_open_api/apis/openapi/v1/products/bestcategories/${category}?limit=10`;
             const authorization = await generateHmac("GET", url, process.env.REACT_APP_KEY, process.env.REACT_APP_AU);
     
             const res = await fetch(`https://api-gateway.coupang.com` + url, {
@@ -168,8 +167,6 @@ exports.handler = async (event, context) => {
     const data = JSON.parse(event.body);
     const category = data.category;
     const count = data.count;
-
-    console.log(category, count);
 
     // send items that is similar with the contents(category)
     const itemsByCategory = await getCoupangBestItemsByCategory(category);

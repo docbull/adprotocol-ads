@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { useEffect, useState, useRef, useCallback } from "react";
 import Slider from "react-slick";
 import { useLocation } from "react-router-dom";
+import { initializeApp } from "firebase/app";
+import { getFirestore, addDoc, collection } from "firebase/firestore";
 
 const Coupang = ({ category }) => {
     const location = useLocation();
@@ -12,8 +14,6 @@ const Coupang = ({ category }) => {
 
     const [ isMobile, setIsMobile ] = useState(false);
     const [ items, setItems ] = useState([]);
-    const divRef = useRef(null);
-    const [ width, setWidth ] = useState(0);
 
     const slickRef = useRef(null);
     var settings = {
@@ -28,9 +28,6 @@ const Coupang = ({ category }) => {
     }
 
     useEffect(() => {
-        console.log(category);
-        console.log(count);
-
         if (category) {
             fetch(`https://cool-pony-c67e5b.netlify.app/.netlify/functions/coupang`, {
                 method: "POST",
@@ -43,7 +40,7 @@ const Coupang = ({ category }) => {
             .then(res => res.json())
             .then(data => {
                 const iframeWidth = Number(document.body.scrollWidth);
-                if (iframeWidth <= 400) {
+                if (iframeWidth <= 500) {
                     setIsMobile(true);
                     setItems(data.items);
                 } else if (iframeWidth <= 600) {
@@ -51,11 +48,6 @@ const Coupang = ({ category }) => {
                     setItems(data.items);
                 } else {
                     setItems(data.items);
-                }
-
-                if (divRef.current) {
-                    const measuredWidth = divRef.current.offsetWidth;
-                    setWidth(measuredWidth);
                 }
             })
             .catch(console.error);
@@ -74,11 +66,35 @@ const Coupang = ({ category }) => {
         new ResizeObserver(sendHeight).observe(document.body);
     }, []);
 
-    const coupangClickEvent = (url) => {
-        // 어떤 상품을 클릭했는지 기록
-        // 기록 데이터: 광고 위치, 광고 카테고리, 광고 ID, 
+    const coupangClickEvent = async (item) => {
+        window.open(item.productUrl, "_blank");
 
-        window.open(url, "_blank");
+        saveAdEffectiveness(item);
+    }
+
+    const saveAdEffectiveness = (item) => {
+        try {
+            const app = initializeApp({
+                apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
+                authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+                projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
+                storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCKET,
+                messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGINGSENDERID,
+                appId: process.env.REACT_APP_FIREBASE_APPID,
+                measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENTID
+            });
+            
+            const firestore = getFirestore(app);
+
+            addDoc(collection(firestore, "effectiveness"), {
+                ad_id: content,
+                location: count,
+                category: category,
+                product_id: item.productId,
+            });
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     const clickScreenSize = () => {
@@ -88,55 +104,69 @@ const Coupang = ({ category }) => {
 
     return (
         <CoupangWrapper>
-            <AdWrapper ref={divRef}>
-                {!isMobile ? 
-                items.map((item, idx) => (
-                    <CoupangItemWrapper key={idx}>
-                        <CoupangImageWrapper> 
-                            <CoupangImage src={item.productImage} />
-                            <CoupangShippingWrapper2>
-                                {item.isFreeShipping ? <CoupangFreeShipping> 무료배송 </CoupangFreeShipping> : <></>}
-                                {item.isRocket ? <CoupangRocketShipping2> 로켓배송 </CoupangRocketShipping2> : <></>}
-                            </CoupangShippingWrapper2>
-                        </CoupangImageWrapper>
-                        <CoupangDescription>
-                            <CoupangItemName> {item.productName} </CoupangItemName>
-                            <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignContent: "center"}}>
-                                <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName>  ₩{item.productPrice.toLocaleString()} </CoupangItemName> </div>
-                                {/* <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName>  ₩1,930,300 </CoupangItemName> </div> */}
-                                <CoupangSeeDetails2 onClick={() => coupangClickEvent(item.productUrl)}> 자세히 → </CoupangSeeDetails2>
-                            </div>
-                        </CoupangDescription>
-                    </CoupangItemWrapper>
-                ))
-                :
-                // show item lists with slides
-                <Slider {...settings} ref={slickRef}>
-                    {items.map((item, idx) => {
-                        return (
-                            <CoupangItemWrapperMobile key={idx} onClick={() => coupangClickEvent(item.productUrl)}>
-                                <CoupangImageMobileWrapper>
+            <div style={{display: "flex", justifyContent: "center"}}>
+                Category 추천 상품
+            </div>
+
+            <AdWrapper>
+                    {!isMobile ? 
+                        items.map((item, idx) => (
+                            <CoupangItemWrapper key={idx}>
+                                <CoupangImageWrapper> 
                                     <CoupangImage src={item.productImage} />
                                     <CoupangShippingWrapper2>
                                         {item.isFreeShipping ? <CoupangFreeShipping> 무료배송 </CoupangFreeShipping> : <></>}
                                         {item.isRocket ? <CoupangRocketShipping2> 로켓배송 </CoupangRocketShipping2> : <></>}
                                     </CoupangShippingWrapper2>
-                                </CoupangImageMobileWrapper>
+                                </CoupangImageWrapper>
                                 <CoupangDescription>
-                                    <CoupangItemName className="ladder-mobile-text"> {item.productName} </CoupangItemName>
+                                    <CoupangItemName> {item.productName} </CoupangItemName>
                                     <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignContent: "center"}}>
-                                        <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName className="ladder-mobile-text">  ₩{item.productPrice.toLocaleString()} </CoupangItemName> </div>
-                                        {/* <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName>  ₩993,000 </CoupangItemName> </div> */}
-                                        <CoupangSeeDetails2 style={{fontSize: "0.7rem"}} onClick={() => coupangClickEvent(item.productUrl)}> 자세히 → </CoupangSeeDetails2>
+                                        <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName>  ₩{item.productPrice.toLocaleString()} </CoupangItemName> </div>
+                                        {/* <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName>  ₩1,930,300 </CoupangItemName> </div> */}
+                                        <CoupangSeeDetails2 onClick={() => coupangClickEvent(item)}> 자세히 → </CoupangSeeDetails2>
                                     </div>
                                 </CoupangDescription>
-                            </CoupangItemWrapperMobile>
-                        )
-                    })}
-                </Slider>
+                            </CoupangItemWrapper>
+                        ))
+                    :
+                    // show item lists with slides
+                    <Slider {...settings} ref={slickRef}>
+                        {items.map((item, idx) => {
+                            return (
+                                <CoupangItemWrapperMobile key={idx} onClick={() => coupangClickEvent(item)}>
+                                    <CoupangImageMobileWrapper>
+                                        <CoupangImage src={item.productImage} />
+                                        <CoupangShippingWrapper2>
+                                            {item.isFreeShipping ? <CoupangFreeShipping> 무료배송 </CoupangFreeShipping> : <></>}
+                                            {item.isRocket ? <CoupangRocketShipping2> 로켓배송 </CoupangRocketShipping2> : <></>}
+                                        </CoupangShippingWrapper2>
+                                    </CoupangImageMobileWrapper>
+                                    <CoupangDescription>
+                                        <CoupangItemName className="ladder-mobile-text"> {item.productName} </CoupangItemName>
+                                        <div style={{width: "100%", display: "flex", justifyContent: "space-between", alignContent: "center"}}>
+                                            <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName className="ladder-mobile-text">  ₩{item.productPrice.toLocaleString()} </CoupangItemName> </div>
+                                            {/* <div style={{display: "flex", alignItems: "center"}}> <CoupangItemName>  ₩993,000 </CoupangItemName> </div> */}
+                                            <CoupangSeeDetails2 style={{fontSize: "0.7rem"}} onClick={() => coupangClickEvent(item)}> 자세히 → </CoupangSeeDetails2>
+                                        </div>
+                                    </CoupangDescription>
+                                </CoupangItemWrapperMobile>
+                            )
+                        })}
+                    </Slider>
                 }
             </AdWrapper>
 
+            <CoupangComment>
+                {isMobile ? 
+                    <div style={{width: "100%", textAlign: "right"}}>
+                        * 해당 위젯은 쿠팡 파트너스 활동의 일환으로,<br></br>
+                        이에 따른 일정액의 수수료를 제공받습니다.
+                    </div>
+                :
+                    <>* 해당 위젯은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</>
+                }
+            </CoupangComment>
             {/* <CoupangLogo style={{width: `${width}px`}}> <span style={{color: "#521110"}}>Cou</span><span style={{color: "#D83227"}}>p</span><span style={{color: "#EA9924"}}>a</span><span style={{color: "#92BA3F"}}>n</span><span style={{color: "#50A3DA"}}>g</span> </CoupangLogo> */}
         </CoupangWrapper>
     );
@@ -145,11 +175,9 @@ const Coupang = ({ category }) => {
 export default Coupang;
 
 const CoupangWrapper = styled.div`
-    display: flex;
+    // display: flex;
     flex-direction: column;
     height: 320px;
-
-    // align-items: center;
 `;
 
 const CoupangLogo = styled.div`
@@ -157,15 +185,12 @@ const CoupangLogo = styled.div`
     font-weight: bold;
     margin-left: auto;
 
-    // margin-top: -10px;
     font-size: 0.8rem;
 `;
 
 const AdWrapper = styled.div`
     display: flex;
     justify-content: center;
-
-    // width: fit-content;
 
     background: #fefefe;
     padding: 10px;
@@ -176,20 +201,18 @@ const AdWrapper = styled.div`
 
     .slick-slider {
         width: 200px;
+        // width: 100%;
 
         .slick-slide {
-            margin: 0 10px;
+            // margin: 0 10px;
+            padding: 0 10px;
         }
 
         .slick-list {
-            // width: 100%;
-
             .slick-track {
                 width: 100%;
 
                 display: flex;
-                // justify-content: center;
-                // align-items: center;
             }
         }
     }
@@ -202,6 +225,7 @@ const CoupangItemWrapper = styled.div`
     flex-direction: column;
     margin: 0 1vw;
 
+    will-change: filter;
     border-radius: 10px;
     filter: drop-shadow(0 0 0.25em lightgray);
     background: white;
@@ -364,6 +388,7 @@ const CoupangSeeDetails2 = styled.div`
 const CoupangItemWrapperMobile = styled.div`
     overflow: hidden;
 
+    will-change: filter;
     border-radius: 10px;
     filter: drop-shadow(0 0 0.25em lightgray);
     background: white;
@@ -399,4 +424,14 @@ const CoupangItemNameMobile = styled.span`
     text-overflow: ellipsis;
 
     font-size: 0.9rem;
+`;
+
+const CoupangComment = styled.div`
+    display: flex;
+    // justify-content: center;
+
+    font-size: 0.8rem;
+    // color: gray;
+    font-weight: normal;
+    background: none;
 `;
