@@ -104,9 +104,9 @@ const Coupang = ({ category }) => {
 
     return (
         <CoupangWrapper>
-            <div style={{display: "flex", justifyContent: "center"}}>
+            {/* <div style={{display: "flex", justifyContent: "center"}}>
                 Category 추천 상품
-            </div>
+            </div> */}
 
             <AdWrapper>
                     {!isMobile ? 
@@ -159,7 +159,7 @@ const Coupang = ({ category }) => {
 
             <CoupangComment>
                 {isMobile ? 
-                    <div style={{width: "100%", textAlign: "right"}}>
+                    <div style={{width: "100%", float: "right", textAlign: "right"}}>
                         * 해당 위젯은 쿠팡 파트너스 활동의 일환으로,<br></br>
                         이에 따른 일정액의 수수료를 제공받습니다.
                     </div>
