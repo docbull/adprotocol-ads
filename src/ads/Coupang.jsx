@@ -163,7 +163,7 @@ const Coupang = ({ category }) => {
     }
 
     const clickScreenSize = () => {
-        // console.log(document.body.scrollHeight);
+        console.log(document.body.scrollHeight);
 
     }
 
@@ -231,7 +231,7 @@ const Coupang = ({ category }) => {
             <CoupangComment>
                 <div>해당 위젯은 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</div>
             </CoupangComment>
-            {/* <CoupangLogo> <span style={{color: "#521110"}}>Cou</span><span style={{color: "#D83227"}}>p</span><span style={{color: "#EA9924"}}>a</span><span style={{color: "#92BA3F"}}>n</span><span style={{color: "#50A3DA"}}>g</span> </CoupangLogo> */}
+            {/* <CoupangLogo onClick={clickScreenSize}> <span style={{color: "#521110"}}>Cou</span><span style={{color: "#D83227"}}>p</span><span style={{color: "#EA9924"}}>a</span><span style={{color: "#92BA3F"}}>n</span><span style={{color: "#50A3DA"}}>g</span> </CoupangLogo> */}
         </CoupangWrapper>
     );
 };
@@ -241,7 +241,7 @@ export default Coupang;
 const CoupangWrapper = styled.div`
     // display: flex;
     flex-direction: column;
-    height: 400px;
+    height: 410px;
 `;
 
 const CoupangCategoryComment = styled.div`
